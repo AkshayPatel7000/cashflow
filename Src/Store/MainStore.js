@@ -39,6 +39,7 @@ class MainStore {
       var exArray = [];
       var temp = list.map(item => {
         var smsBody = item?.body?.toLowerCase()?.replace(/[^\w\.]/g, '');
+
         var amount = extractAmountFromSMS(smsBody);
         var accountNumber = AccountNumber(smsBody);
         var CARDNumber = IsCreditCard(smsBody);

@@ -8,7 +8,7 @@ import TextCustom from '../Text/Text';
 import {observer} from 'mobx-react';
 import {mainStore} from '../../Store/MainStore';
 const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
+const screenHeight = Dimensions.get('screen').height;
 const CardChart = () => {
   const styles = GetStyles();
   const {colors} = useTheme();
@@ -107,15 +107,15 @@ const GetStyles = () => {
     column: {},
     textHeading: {
       fontWeight: '600',
-      fontSize: 16,
+      fontSize: 14,
       color: colors.my_tertiary,
     },
     textAmount: {
       fontWeight: '600',
-      fontSize: 18,
+      fontSize: 16,
     },
     chartContainer: {
-      marginTop: 20,
+      marginTop: 18,
     },
   });
 };

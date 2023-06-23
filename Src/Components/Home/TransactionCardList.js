@@ -58,7 +58,7 @@ const TransactionCardList = ({data, isRecent = false}) => {
                     width: '100%',
 
                     ...styles.mainHeading,
-                    fontSize: 16,
+                    fontSize: 14,
                     color: item?.isCredited
                       ? colors.my_tertiary
                       : colors.my_addOne,
@@ -116,17 +116,17 @@ const getStyles = () => {
       alignItems: 'center',
     },
     mainHeading: {
-      fontSize: 18,
+      fontSize: 16,
       fontWeight: '600',
     },
     mainSubHeading: {
-      fontSize: 14,
+      fontSize: 12,
       fontWeight: '400',
     },
     transactionCard: {
       borderRadius: 15,
       padding: 10,
-      marginVertical: 8,
+      marginVertical: 6,
       backgroundColor: '#fff',
       flexDirection: 'row',
       alignItems: 'center',

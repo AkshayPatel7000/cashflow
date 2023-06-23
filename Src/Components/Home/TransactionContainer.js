@@ -1,4 +1,4 @@
-import {useTheme} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import TextCustom from '../Text/Text';
@@ -7,12 +7,12 @@ import {mainStore} from '../../Store/MainStore';
 import {observer} from 'mobx-react';
 const TransactionContainer = () => {
   const styles = getStyles();
-
+  const navigation = useNavigation();
   return (
     <View style={styles.main}>
       <View style={styles.headingContainer}>
         <TextCustom title={'Recent Transections'} styles={styles.mainHeading} />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Expenses')}>
           <TextCustom title={'View All'} styles={styles.mainSubHeading} />
         </TouchableOpacity>
       </View>
@@ -34,12 +34,13 @@ const getStyles = () => {
       alignItems: 'center',
     },
     mainHeading: {
-      fontSize: 18,
+      fontSize: 16,
       fontWeight: '600',
     },
     mainSubHeading: {
-      fontSize: 14,
-      fontWeight: '400',
+      fontSize: 12,
+      fontWeight: '800',
+      // color: colors.my_addOne,
     },
   });
 };

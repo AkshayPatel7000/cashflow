@@ -36,17 +36,17 @@ const getStyles = () => {
       alignItems: 'center',
     },
     mainHead: {
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: '600',
       color: colors.my_white,
     },
     mainSubHead: {
-      fontSize: 14,
+      fontSize: 12,
       fontWeight: '400',
       color: colors.my_white,
     },
     mainAmountText: {
-      fontSize: 21,
+      fontSize: 20,
       fontWeight: '700',
       color: colors.my_white,
     },

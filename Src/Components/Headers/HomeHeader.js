@@ -1,9 +1,19 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import TextCustom from '../Text/Text';
 import {Shadow} from '../../Utils/constant';
-
+import DeviceInfo from 'react-native-device-info';
 const HomeHeader = () => {
+  const [Name, setName] = useState('');
+  useEffect(() => {
+    DeviceInfo.getManufacturer().then(res => {
+      console.log(res);
+      DeviceInfo.getDeviceName().then(deviceName => {
+        setName(res + ' ' + deviceName);
+      });
+    });
+  }, []);
+
   return (
     <View style={[styles.main, Shadow]}>
       <View style={{height: 40, width: 40, borderRadius: 10}}>
@@ -16,7 +26,7 @@ const HomeHeader = () => {
       </View>
       <View style={styles.textContainer}>
         <TextCustom title={'Welcome'} styles={styles.greeting} />
-        <TextCustom title={'Akshay Patel'} />
+        <TextCustom title={Name} />
       </View>
     </View>
   );
@@ -36,11 +46,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   greeting: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
   },
   username: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: '400',
   },
 });

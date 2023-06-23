@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontWeight: '700',
-    fontSize: 18,
+    fontSize: 16,
   },
 });

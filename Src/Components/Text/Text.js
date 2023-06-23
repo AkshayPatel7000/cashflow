@@ -5,7 +5,9 @@ import {useTheme} from '@react-navigation/native';
 const TextCustom = ({title, styles, ...props}) => {
   const {colors} = useTheme();
   return (
-    <Text {...props} style={[{color: colors.text}, {...styles}]}>
+    <Text
+      {...props}
+      style={[{color: colors.text, fontFamily: 'Poppins-Medium'}, {...styles}]}>
       {title ? title : '-'}
     </Text>
   );

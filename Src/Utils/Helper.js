@@ -177,7 +177,6 @@ export const filterSMS = list => {
     if (
       ele?.body?.includes('credited') &&
       ele?.body?.includes('debited') &&
-      indianBanks.some(word => ele?.body.includes(word.code)) &&
       indianBanks.some(word => {
         var d = new RegExp(word.code);
         if (d.test(msgAddress)) {
@@ -190,7 +189,6 @@ export const filterSMS = list => {
     } else {
       var code = '';
       if (
-        indianBanks.some(word => ele?.body.includes(word.code)) &&
         indianBanks.some(word => {
           var d = new RegExp(word.code);
 
