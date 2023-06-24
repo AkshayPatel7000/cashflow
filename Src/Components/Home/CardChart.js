@@ -7,7 +7,7 @@ import {Shadow} from '../../Utils/constant';
 import TextCustom from '../Text/Text';
 import {observer} from 'mobx-react';
 import {mainStore} from '../../Store/MainStore';
-const screenWidth = Dimensions.get('window').width;
+const screenWidth = Dimensions.get('screen').width;
 const screenHeight = Dimensions.get('screen').height;
 const CardChart = () => {
   const styles = GetStyles();

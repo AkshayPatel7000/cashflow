@@ -19,9 +19,7 @@ const HomeHeader = () => {
       <View style={{height: 40, width: 40, borderRadius: 10}}>
         <Image
           style={{height: '100%', width: '100%', borderRadius: 10}}
-          source={{
-            uri: 'https://xsgames.co/randomusers/assets/avatars/male/74.jpg',
-          }}
+          source={require('../../Assets/images/user.jpg')}
         />
       </View>
       <View style={styles.textContainer}>

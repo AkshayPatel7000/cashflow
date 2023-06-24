@@ -16,6 +16,7 @@ class MainStore {
   totalAmount = 0;
   totalIncome = 0;
   totalExpense = 0;
+  TransactionsDetail = {};
   recentGraphData = {
     label: ['Jan', 'Feb', 'Mar', 'Apr'],
     credit: [],
@@ -31,12 +32,13 @@ class MainStore {
         ...res,
         time: res.time ? res?.time : res.date,
       }));
+
       var list = filterSMS(tempData);
+
       var finalAmount = 0;
       var Expanse = 0;
       var income = 0;
-      var inArray = [];
-      var exArray = [];
+
       var temp = list.map(item => {
         var smsBody = item?.body?.toLowerCase()?.replace(/[^\w\.]/g, '');
 
@@ -58,6 +60,8 @@ class MainStore {
             : 0
           : Expanse + 0;
         return {
+          other: item,
+
           body: item?.body,
           amount: amount,
           address: UPI_ID
@@ -81,7 +85,14 @@ class MainStore {
             : '',
         };
       });
-
+      // var dateTime = temp.map(res => {
+      //   var time = res.time ? res.time : res.date;
+      //   return moment(time).format('ll hh:mm:ss');
+      // });
+      // console.log(
+      //   '🚀 ~ file: MainStore.js:39 ~ MainStore ~ dateTime ~ dateTime:',
+      //   dateTime,
+      // );
       this.sms = temp;
       this.resentTrans = temp?.slice(0, 5);
       this.totalAmount = finalAmount;
@@ -118,6 +129,10 @@ class MainStore {
       credit: creditAmount,
       debit: debitAmount,
     };
+  }
+
+  setTransactionDetail(value) {
+    this.TransactionsDetail = value;
   }
 }
 

@@ -1,15 +1,21 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useTheme} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import TextCustom from '../Text/Text';
-const CommonHeader = ({title = 'Expenses', goBack = false}) => {
+const CommonHeader = ({title = 'Expenses', goBack}) => {
   const {colors} = useTheme();
+  const navigation = useNavigation();
+
+  const goBackFn = () => {
+    navigation.goBack();
+  };
   return (
     <View style={styles.main}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         {goBack && (
           <TouchableOpacity
+            onPress={goBackFn}
             style={{
               marginRight: 10,
             }}>

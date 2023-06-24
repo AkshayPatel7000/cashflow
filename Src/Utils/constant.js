@@ -19,7 +19,6 @@ import HSBC from '../Assets/images/HSBC.png';
 import ICICI from '../Assets/images/ICICI.png';
 import IDBI from '../Assets/images/IDBI.png';
 import IDFC from '../Assets/images/IDFC.png';
-import INB from '../Assets/images/ALB.png';
 import IOB from '../Assets/images/IOB.png';
 import INDUS from '../Assets/images/INDUS.png';
 import JKB from '../Assets/images/JKB.png';
@@ -130,10 +129,7 @@ export const indianBanks = [
     name: 'IDFC First Bank',
     code: 'IDFC',
   },
-  {
-    name: 'Indian Bank',
-    code: 'INB',
-  },
+
   {
     name: 'Indian Overseas Bank',
     code: 'IOB',
@@ -268,7 +264,6 @@ export const indianBankLogo = {
   ICICI: ICICI,
   IDBI: IDBI,
   IDFC: IDFC,
-  INB: INB,
   INDUS: INDUS,
   IOB: IOB,
   JKB: JKB,

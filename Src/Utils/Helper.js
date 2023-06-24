@@ -64,14 +64,20 @@ export async function _onSmsListenerPressed(permission) {
 
 export function extractAmountFromSMS(smsText) {
   const regex = /inr\s*([\d,]+)/; // Assuming the amount is in INR currency
+  const regexINRDOT = /inr.\s*([\d,]+)/; // Assuming the amount is in INR currency
   const regexRS = /rs\s*([\d,]+)/; // Assuming the amount is in INR currency
   const regexRSDot = /rs.\s*([\d,]+)/; // Assuming the amount is in INR currency
 
   const match = smsText?.match(regex);
+  const matchINRDOT = smsText?.match(regexINRDOT);
   const matchRS = smsText?.match(regexRS);
   const matchRSDot = smsText?.match(regexRSDot);
   if (match && match[1]) {
     const amountString = match[1].replace(/,/g, ''); // Remove any commas in the amount string
+    return amountString;
+  }
+  if (matchINRDOT && matchINRDOT[1]) {
+    const amountString = matchINRDOT[1].replace(/,/g, ''); // Remove any commas in the amount string
     return amountString;
   }
   if (matchRS && matchRS[1]) {
@@ -180,12 +186,12 @@ export const filterSMS = list => {
       indianBanks.some(word => {
         var d = new RegExp(word.code);
         if (d.test(msgAddress)) {
-          code = word.code;
+          code = word;
         }
         return d.test(msgAddress);
       })
     ) {
-      doubleList.push({...ele, code: code});
+      doubleList.push({...ele, ...code});
     } else {
       var code = '';
       if (
@@ -193,12 +199,12 @@ export const filterSMS = list => {
           var d = new RegExp(word.code);
 
           if (d.test(msgAddress)) {
-            code = word.code;
+            code = word;
           }
           return d.test(msgAddress);
         })
       )
-        otherList.push({...ele, code});
+        otherList.push({...ele, ...code});
     }
   });
 

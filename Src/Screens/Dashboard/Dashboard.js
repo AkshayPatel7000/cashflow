@@ -15,7 +15,7 @@ const Dashboard = () => {
       <VirtualizedScrollView
         contentContainerStyle={styles.contentContainerStyle}>
         <CardChart />
-        <BudgetContainer />
+        {/* <BudgetContainer /> */}
         <TransactionContainer />
       </VirtualizedScrollView>
     </Container>

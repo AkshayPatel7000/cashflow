@@ -1,6 +1,13 @@
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
-import {useTheme} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import {Shadow, indianBankLogo} from '../../Utils/constant';
 import * as SVG from '../../Assets/SVG';
 import TextCustom from '../Text/Text';
@@ -10,9 +17,16 @@ import moment from 'moment';
 const TransactionCardList = ({data, isRecent = false}) => {
   const styles = getStyles();
   const {colors} = useTheme();
+  const navigation = useNavigation();
+  const move = item => {
+    mainStore.setTransactionDetail({...item});
+    navigation.navigate('TransactionsDetail');
+  };
   const renderItem = ({item}) => {
     return (
-      <View style={[styles.transactionCard, Shadow]}>
+      <TouchableOpacity
+        onPress={() => move(item)}
+        style={[styles.transactionCard, Shadow]}>
         {!indianBankLogo[item?.code] ? (
           <SVG.BankSVG />
         ) : (
@@ -37,7 +51,7 @@ const TransactionCardList = ({data, isRecent = false}) => {
               />
             ) : (
               <TextCustom
-                title={moment(item.time).format('l LT')}
+                title={moment(item.time).format('DD/MM/YYYY, LT')}
                 styles={styles.mainSubHeading}
               />
             )}
@@ -47,13 +61,15 @@ const TransactionCardList = ({data, isRecent = false}) => {
               // flexDirection: 'row',
               justifyContent: 'flex-end',
               alignItems: 'center',
-              width: '35%',
+              width: '33%',
             }}>
             {item.amount ? (
               <>
                 <TextCustom
                   numberOfLines={1}
-                  title={`${item?.isCredited ? '+₹' : '-₹'}${item.amount}.00`}
+                  title={`${item?.isCredited ? '+₹' : '-₹'}${Number(
+                    item.amount,
+                  )?.toLocaleString('hi-IN')}.00`}
                   styles={{
                     width: '100%',
 
@@ -88,7 +104,7 @@ const TransactionCardList = ({data, isRecent = false}) => {
             />
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
