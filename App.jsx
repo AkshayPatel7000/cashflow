@@ -29,6 +29,7 @@ const App = () => {
   if (loading) {
     return <Loading />;
   }
+
   return (
     <View style={{flex: 1}}>
       <Routes />

@@ -3,6 +3,7 @@ import {indianBanks} from './constant';
 import SmsAndroid from 'react-native-get-sms-android';
 import {mainStore} from '../Store/MainStore';
 import moment from 'moment';
+import {Linking} from 'react-native';
 
 export const check_PERMISSIONS_STATUS = async permission => {
   try {
@@ -23,6 +24,7 @@ export const check_PERMISSIONS_STATUS = async permission => {
 
           break;
         case RESULTS.BLOCKED:
+          Linking.openSettings();
           break;
       }
     });
@@ -33,10 +35,13 @@ export const check_PERMISSIONS_STATUS = async permission => {
 
 export const request_PERMISSIONS = async permission => {
   try {
-    request(permission).then(result => {
-      console.log('result--->', result);
-      if (result === 'granted') _onSmsListenerPressed(permission);
-    });
+    const result = await request(permission);
+    console.log('result--->', result);
+    if (result === 'granted') {
+      _onSmsListenerPressed(permission);
+    }
+
+    return result;
   } catch (err) {
     console.warn(err);
   }
