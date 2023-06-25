@@ -314,3 +314,15 @@ export const sumSameDayTrans = (list = []) => {
 
   return summedTransactions;
 };
+
+export const getCommonBanks = () => {
+  let banks = [];
+  var data = uniqueArray(mainStore?.sms, 'code');
+  banks = data.map(item => {
+    return {
+      code: item.code,
+    };
+  });
+  console.log('🚀 ~ file: Helper.js:326 ~ getCommonBanks ~ banks:', banks);
+  mainStore.setUserAllBanks(banks);
+};

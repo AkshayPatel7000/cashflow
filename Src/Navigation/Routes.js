@@ -21,6 +21,7 @@ const myLight = {
     my_subHeading: '#1A202C',
     my_text: '#030303',
     my_white: '#fff',
+    my_Black: '#000',
   },
 };
 const myDark = {
@@ -35,10 +36,12 @@ const myDark = {
     my_subHeading: '#1A202C',
     my_text: '#030303',
     my_white: '#fff',
+    my_Black: '#000',
   },
 };
 export default Routes = observer(() => {
   const scheme = useColorScheme();
+
   return (
     <NavigationContainer theme={scheme === 'dark' ? myDark : myLight}>
       <Stack.Navigator

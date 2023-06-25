@@ -22,7 +22,12 @@ class MainStore {
     credit: [],
     debit: [],
   };
-
+  userAllBanks = [];
+  filteredSMS = [];
+  fSelectedBank = {
+    Bank: {},
+    type: {},
+  };
   constructor() {
     makeAutoObservable(this);
   }
@@ -94,6 +99,7 @@ class MainStore {
       //   dateTime,
       // );
       this.sms = temp;
+      this.filteredSMS = temp;
       this.resentTrans = temp?.slice(0, 5);
       this.totalAmount = finalAmount;
       this.totalIncome = income;
@@ -133,6 +139,29 @@ class MainStore {
 
   setTransactionDetail(value) {
     this.TransactionsDetail = value;
+  }
+  setUserAllBanks(value) {
+    this.userAllBanks = value;
+  }
+  setFilterByBank(value) {
+    console.log(
+      '🚀 ~ file: MainStore.js:147 ~ MainStore ~ setFilterByBank ~ value:',
+      value,
+    );
+    this.fSelectedBank = value;
+    var temp = this.sms;
+    if (value?.Bank?.code) {
+      temp = temp?.filter(ele => ele?.code === value?.Bank?.code);
+    }
+    if (value?.type) {
+      temp = temp.filter(ele => ele.isCredited === value?.type?.isCredit);
+    }
+
+    this.filteredSMS = temp;
+  }
+  clearFilter() {
+    this.fSelectedBank = {};
+    this.filteredSMS = this.sms;
   }
 }
 

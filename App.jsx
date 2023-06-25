@@ -8,6 +8,7 @@ import {
   _onSmsListenerPressed,
   check_PERMISSIONS_STATUS,
 } from './Src/Utils/Helper';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 const App = () => {
   if (Text.defaultProps == null) {
     Text.defaultProps = {};
@@ -31,9 +32,9 @@ const App = () => {
   }
 
   return (
-    <View style={{flex: 1}}>
+    <GestureHandlerRootView style={{flex: 1}}>
       <Routes />
-    </View>
+    </GestureHandlerRootView>
   );
 };
 

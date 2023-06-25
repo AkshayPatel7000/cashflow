@@ -3,7 +3,12 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import TextCustom from '../Text/Text';
-const CommonHeader = ({title = 'Expenses', goBack}) => {
+const CommonHeader = ({
+  title = 'Expenses',
+  goBack,
+  rightIcon,
+  rightIconOnPress,
+}) => {
   const {colors} = useTheme();
   const navigation = useNavigation();
 
@@ -25,6 +30,13 @@ const CommonHeader = ({title = 'Expenses', goBack}) => {
 
         <TextCustom title={title} styles={styles.titleText} />
       </View>
+      {rightIcon && (
+        <TouchableOpacity
+          onPress={rightIconOnPress}
+          style={{width: '10%', alignItems: 'center'}}>
+          {rightIcon()}
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
