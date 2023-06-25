@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import TextCustom from '../Text/Text';
 import {Shadow} from '../../Utils/constant';
 import DeviceInfo from 'react-native-device-info';
+
 const HomeHeader = () => {
   const [Name, setName] = useState('');
   useEffect(() => {

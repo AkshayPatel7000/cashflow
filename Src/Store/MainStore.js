@@ -26,7 +26,7 @@ class MainStore {
   filteredSMS = [];
   fSelectedBank = {
     Bank: {},
-    type: {},
+    type: {isCredit: ''},
   };
   constructor() {
     makeAutoObservable(this);
@@ -153,8 +153,13 @@ class MainStore {
     if (value?.Bank?.code) {
       temp = temp?.filter(ele => ele?.code === value?.Bank?.code);
     }
-    if (value?.type) {
-      temp = temp.filter(ele => ele.isCredited === value?.type?.isCredit);
+    if (value?.type?.isCredit !== '') {
+      var data =
+        value.type.isCredit === 'credit'
+          ? true
+          : value.type.isCredit === 'debit' && false;
+      console.log('data', data);
+      temp = temp.filter(ele => ele.isCredited === data);
     }
 
     this.filteredSMS = temp;

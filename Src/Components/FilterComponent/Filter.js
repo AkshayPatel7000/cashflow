@@ -102,12 +102,12 @@ const Filter = ({close}) => {
           </View>
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
-              onPress={() => setType({isCredit: true})}
+              onPress={() => setType({isCredit: 'credit'})}
               style={[
                 styles.pill,
                 {
                   backgroundColor:
-                    type?.isCredit === true
+                    type?.isCredit === 'credit'
                       ? colors.my_addOne
                       : colors.my_tertiary,
                 },
@@ -122,12 +122,12 @@ const Filter = ({close}) => {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => setType({isCredit: false})}
+              onPress={() => setType({isCredit: 'debit'})}
               style={[
                 styles.pill,
                 {
                   backgroundColor:
-                    type?.isCredit === false
+                    type?.isCredit === 'debit'
                       ? colors.my_addOne
                       : colors.my_tertiary,
                 },
