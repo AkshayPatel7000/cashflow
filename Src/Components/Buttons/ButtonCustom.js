@@ -1,12 +1,6 @@
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React from 'react';
 import {useTheme} from '@react-navigation/native';
+import React from 'react';
+import {ActivityIndicator, StyleSheet, TouchableOpacity} from 'react-native';
 import TextCustom from '../Text/Text';
 
 const ButtonCustom = ({
@@ -24,7 +18,7 @@ const ButtonCustom = ({
       disabled={disabled}
       style={[
         {
-          backgroundColor: colors.my_Black,
+          backgroundColor: disabled ? 'gray' : colors.my_Black,
           justifyContent: 'center',
           alignItems: 'center',
           padding: 12,

@@ -12,7 +12,7 @@ import {
 import {scale} from '../../Utils/responsive';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as SVG from '../../Assets/SVG';
-import {Dashboard, Expenses} from '../../Screens/index';
+import {Dashboard, Expenses, Profile, Wallet} from '../../Screens/index';
 //settings-outline wallet-outline add-circle-outline home-outline
 //settings wallet add-circle home
 Icon.loadFont();
@@ -184,21 +184,21 @@ const BottomTabs = () => {
           component={Expenses}
         />
         <BottomTab.Screen
-          name="Expense"
+          name="Wallet"
           options={{
             icon: 'ios-wallet',
             iconInActive: 'ios-wallet-outline',
           }}
-          component={Dashboard}
+          component={Wallet}
         />
         <BottomTab.Screen
-          name="Profiletab"
+          name="Profile"
           options={{
             tabBarHideOnKeyboard: true,
             icon: 'settings',
             iconInActive: 'settings-outline',
           }}
-          component={Dashboard}
+          component={Profile}
         />
       </BottomTab.Navigator>
     </>

@@ -8,7 +8,8 @@ import CardChart from '../../Components/Home/CardChart';
 import BudgetContainer from '../../Components/Home/BudgetContainer';
 import TransactionContainer from '../../Components/Home/TransactionContainer';
 import {check} from 'react-native-permissions';
-import {request_PERMISSIONS} from '../../Utils/Helper';
+import {_onSmsListenerPressed, request_PERMISSIONS} from '../../Utils/Helper';
+import {observer} from 'mobx-react';
 
 const Dashboard = props => {
   const [hasPer, sethasPer] = useState(false);
@@ -19,6 +20,7 @@ const Dashboard = props => {
   const init = async () => {
     const status = await check('android.permission.READ_SMS');
     if (status == 'granted') {
+      _onSmsListenerPressed('android.permission.READ_SMS');
       sethasPer(true);
     }
   };
@@ -68,7 +70,7 @@ const Dashboard = props => {
   );
 };
 
-export default Dashboard;
+export default observer(Dashboard);
 
 const styles = StyleSheet.create({
   contentContainerStyle: {

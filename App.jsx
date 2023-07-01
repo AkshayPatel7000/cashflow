@@ -17,11 +17,11 @@ const App = () => {
 
   const [loading, setloading] = useState(true);
   useLayoutEffect(() => {
-    check_PERMISSIONS_STATUS(PERMISSIONS.ANDROID.READ_SMS);
+    // check_PERMISSIONS_STATUS(PERMISSIONS.ANDROID.READ_SMS);
 
     var interval = setTimeout(() => {
       setloading(false);
-      _onSmsListenerPressed();
+      // _onSmsListenerPressed();
     }, 5000);
 
     return () => clearTimeout(interval);

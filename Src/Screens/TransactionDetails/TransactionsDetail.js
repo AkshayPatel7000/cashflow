@@ -27,89 +27,85 @@ const TransactionsDetail = () => {
   const styles = getStyles();
   return (
     <Container>
-      <View style={[styles.main, Shadow]}>
-        <CommonHeader title="Details" goBack />
-        <View style={styles.bankIcon}>
-          <View style={{height: 100, width: 100, alignSelf: 'center'}}>
-            <Image
-              source={indianBankLogo[TransactionsDetail?.code]}
-              style={{width: '100%', height: '100%'}}
-            />
-          </View>
-          <View
-            style={{
-              alignItems: 'center',
-              marginTop: 25,
-            }}>
-            <TextCustom
-              title={TransactionsDetail?.other?.name}
-              styles={styles.bankName}
-            />
-          </View>
-        </View>
-      </View>
+      <CommonHeader title="Details" goBack />
       <ScrollView style={styles.detail}>
-        <TextCustom title={'Details'} styles={styles.DetailHeading} />
-        <View style={styles.BodyContainer}>
-          <TextCustom
-            title={
-              TransactionsDetail?.type === 'CARD' ? 'Card No.' : 'Account No.'
-            }
-            styles={styles.Key}
-          />
-          <TextCustom
-            title={
-              TransactionsDetail?.type === 'CARD'
-                ? 'XXXX-XXXX-XXXX-' + TransactionsDetail?.isCard
-                : 'XXXX-XXXX-XXXX-' + TransactionsDetail?.title
-            }
-            styles={styles.value}
-          />
+        <View style={[styles.main]}>
+          <View style={styles.bankIcon}>
+            <View style={{height: 50, width: 50, alignSelf: 'center'}}>
+              <Image
+                source={indianBankLogo[TransactionsDetail?.code]}
+                style={{width: '100%', height: '100%'}}
+              />
+            </View>
+            <View
+              style={{
+                alignItems: 'center',
+                marginTop: 25,
+              }}>
+              <TextCustom
+                title={TransactionsDetail?.other?.name}
+                styles={styles.bankName}
+              />
+            </View>
+          </View>
         </View>
-        <View style={styles.BodyContainer}>
-          <TextCustom title={'Date & Time'} styles={styles.Key} />
-          <TextCustom
-            styles={styles.value}
-            title={moment(TransactionsDetail?.time).format('ll, hh:mm a')}
-          />
-        </View>
-        <View style={styles.BodyContainer}>
-          <TextCustom title={'Payment Mode'} styles={styles.Key} />
-          <TextCustom title={TransactionsDetail?.type} styles={styles.value} />
-        </View>
-        {TransactionsDetail?.type == 'UPI' && (
+        <View style={styles.msgContainer}>
+          <TextCustom title={'Details'} styles={styles.DetailHeading} />
           <View style={styles.BodyContainer}>
-            <TextCustom title={'Payment To'} styles={styles.Key} />
             <TextCustom
-              title={TransactionsDetail?.address}
+              title={
+                TransactionsDetail?.type === 'CARD' ? 'Card No.' : 'Account No.'
+              }
+              styles={styles.Key}
+            />
+            <TextCustom
+              title={
+                TransactionsDetail?.type === 'CARD'
+                  ? 'XXXX-XXXX-XXXX-' + TransactionsDetail?.isCard
+                  : 'XXXX-XXXX-XXXX-' + TransactionsDetail?.title
+              }
               styles={styles.value}
             />
           </View>
-        )}
-        <View style={styles.BodyContainer}>
-          <TextCustom title={'Amount'} styles={styles.Key} />
-          <TextCustom
-            title={`${TransactionsDetail?.isCredited ? '+' : '-'} ₹${Number(
-              TransactionsDetail?.amount,
-            )?.toLocaleString('hi-IN')}`}
-            styles={{
-              ...styles.amount,
-              color: TransactionsDetail?.isCredited
-                ? colors.my_tertiary
-                : colors.my_addOne,
-            }}
-          />
+          <View style={styles.BodyContainer}>
+            <TextCustom title={'Date & Time'} styles={styles.Key} />
+            <TextCustom
+              styles={styles.value}
+              title={moment(TransactionsDetail?.time).format('ll, hh:mm a')}
+            />
+          </View>
+          <View style={styles.BodyContainer}>
+            <TextCustom title={'Payment Mode'} styles={styles.Key} />
+            <TextCustom
+              title={TransactionsDetail?.type}
+              styles={styles.value}
+            />
+          </View>
+          {TransactionsDetail?.type == 'UPI' && (
+            <View style={styles.BodyContainer}>
+              <TextCustom title={'Payment To'} styles={styles.Key} />
+              <TextCustom
+                title={TransactionsDetail?.address}
+                styles={styles.value}
+              />
+            </View>
+          )}
+          <View style={styles.BodyContainer}>
+            <TextCustom title={'Amount'} styles={styles.Key} />
+            <TextCustom
+              title={`${TransactionsDetail?.isCredited ? '+' : '-'} ₹${Number(
+                TransactionsDetail?.amount,
+              )?.toLocaleString('hi-IN')}`}
+              styles={{
+                ...styles.amount,
+                color: TransactionsDetail?.isCredited
+                  ? colors.my_tertiary
+                  : colors.my_addOne,
+              }}
+            />
+          </View>
         </View>
-        <View
-          style={{
-            // borderWidth: 1,
-            paddingVertical: 20,
-            paddingHorizontal: 15,
-            backgroundColor: 'rgba(249, 249, 249, 0.6)',
-            borderRadius: 10,
-            marginTop: 20,
-            marginBottom: 40,
-          }}>
+        <View style={styles.msgContainer}>
           <TextCustom
             title={TransactionsDetail?.other?.body}
             styles={styles.Body}
@@ -140,12 +136,8 @@ const getStyles = () => {
   const {colors} = useTheme();
   return StyleSheet.create({
     main: {
-      height: Dimensions.get('screen').height * 0.29,
       width: '100%',
       alignSelf: 'center',
-      backgroundColor: colors.my_primary,
-      borderBottomLeftRadius: 55,
-      borderBottomRightRadius: 55,
     },
     bankIcon: {
       flex: 1,
@@ -170,7 +162,7 @@ const getStyles = () => {
     },
     detail: {
       flex: 1,
-      padding: 20,
+      padding: 15,
     },
     DetailHeading: {
       fontSize: 24,
@@ -188,12 +180,20 @@ const getStyles = () => {
     value: {
       fontSize: 16,
       fontWeight: '700',
-      width: '50%',
+      width: '60%',
       textAlign: 'right',
     },
     Body: {
       fontSize: 16,
       fontWeight: '700',
+    },
+    msgContainer: {
+      // borderWidth: 1,
+      paddingVertical: 20,
+      paddingHorizontal: 15,
+      backgroundColor: 'rgba(249, 249, 249, 0.4)',
+      borderRadius: 15,
+      marginTop: 20,
     },
   });
 };

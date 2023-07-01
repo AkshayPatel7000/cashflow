@@ -1,9 +1,10 @@
 import {RESULTS, check, request} from 'react-native-permissions';
-import {indianBanks} from './constant';
+// import {indianBanks} from './constant';
 import SmsAndroid from 'react-native-get-sms-android';
 import {mainStore} from '../Store/MainStore';
 import moment from 'moment';
 import {Linking} from 'react-native';
+import {LocalStorage} from './localStorage';
 
 export const check_PERMISSIONS_STATUS = async permission => {
   try {
@@ -47,7 +48,9 @@ export const request_PERMISSIONS = async permission => {
   }
 };
 
-export async function _onSmsListenerPressed(permission) {
+export async function _onSmsListenerPressed(
+  permission = 'android.permission.READ_SMS',
+) {
   try {
     const status = await check(permission);
 
@@ -164,88 +167,99 @@ export const hasUPIid = smsText => {
     return UPI_STRING;
   }
 };
-export const filterSMS = list => {
-  const arrayGain = ['credited', 'creditedto', 'Credited'];
-  const arrayLoss = ['debited', 'spent', "'debitedfor'"];
-  const neglectKeys = [
-    'air',
-    'vi',
-    'rec',
-    'airt',
-    'inox',
-    'niga',
-    'rush',
-    'bero',
-    'mpo',
-  ];
-  var otherList = [];
-  var doubleList = [];
+export const filterSMS = async list => {
+  try {
+    const indianBanks = await LocalStorage.getUserBank();
+    console.log(
+      '🚀 ~ file: Helper.js:171 ~ filterSMS ~ indianBanks:',
+      indianBanks,
+    );
+    const arrayGain = ['credited', 'creditedto', 'Credited'];
+    const arrayLoss = ['debited', 'spent', "'debitedfor'"];
+    const neglectKeys = [
+      'air',
+      'vi',
+      'rec',
+      'airt',
+      'inox',
+      'niga',
+      'rush',
+      'bero',
+      'mpo',
+    ];
+    var otherList = [];
+    var doubleList = [];
 
-  list.map(ele => {
-    var msgAddress = ele?.address;
+    list?.map(ele => {
+      var msgAddress = ele?.address;
 
-    var code = '';
-    if (
-      ele?.body?.includes('credited') &&
-      ele?.body?.includes('debited') &&
-      indianBanks.some(word => {
-        var d = new RegExp(word.code);
-        if (d.test(msgAddress)) {
-          code = word;
-        }
-        return d.test(msgAddress);
-      })
-    ) {
-      doubleList.push({...ele, ...code});
-    } else {
       var code = '';
       if (
+        ele?.body?.includes('credited') &&
+        ele?.body?.includes('debited') &&
         indianBanks.some(word => {
           var d = new RegExp(word.code);
-
           if (d.test(msgAddress)) {
             code = word;
           }
           return d.test(msgAddress);
         })
-      )
-        otherList.push({...ele, ...code});
-    }
-  });
+      ) {
+        doubleList.push({...ele, ...code});
+      } else {
+        var code = '';
+        if (
+          indianBanks.some(word => {
+            var d = new RegExp(word.code);
 
-  var finalGain = otherList?.map(ele => {
-    var msgAddress = ele?.address?.toLowerCase();
-    if (arrayGain.some(word => ele?.body?.includes(word))) {
-      // if (!neglectKeys.some(word => msgAddress?.includes(word)))
-      return {...ele, isCredited: true};
-    }
-  });
-  var finalDoubleLoss = doubleList?.map(ele => {
-    var msgAddress = ele?.address?.toLowerCase();
-    if (arrayLoss.some(word => ele?.body?.includes(word))) {
-      // if (!neglectKeys.some(word => msgAddress?.includes(word)))
-      return {...ele, isCredited: false};
-    }
-  });
-  var finalLoss = otherList?.map(ele => {
-    var msgAddress = ele?.address?.toLowerCase();
-    if (arrayLoss.some(word => ele?.body?.includes(word))) {
-      // if (!neglectKeys.some(word => msgAddress?.includes(word)))
-      return {...ele, isCredited: false};
-    }
-  });
-  var credited = finalGain?.filter(ele => ele);
-  var debited = finalLoss?.filter(ele => ele);
-  var doubleDebited = finalDoubleLoss?.filter(ele => ele);
+            if (d.test(msgAddress)) {
+              code = word;
+            }
+            return d.test(msgAddress);
+          })
+        )
+          otherList.push({...ele, ...code});
+      }
+    });
 
-  var newData = [...credited, ...debited, ...doubleDebited]?.sort(function (
-    x,
-    y,
-  ) {
-    return y?.time - x?.time;
-  });
+    var finalGain = otherList?.map(ele => {
+      var msgAddress = ele?.address?.toLowerCase();
+      if (arrayGain.some(word => ele?.body?.includes(word))) {
+        // if (!neglectKeys.some(word => msgAddress?.includes(word)))
+        return {...ele, isCredited: true};
+      }
+    });
+    var finalDoubleLoss = doubleList?.map(ele => {
+      var msgAddress = ele?.address?.toLowerCase();
+      if (arrayLoss.some(word => ele?.body?.includes(word))) {
+        // if (!neglectKeys.some(word => msgAddress?.includes(word)))
+        return {...ele, isCredited: false};
+      }
+    });
+    var finalLoss = otherList?.map(ele => {
+      var msgAddress = ele?.address?.toLowerCase();
+      if (arrayLoss.some(word => ele?.body?.includes(word))) {
+        // if (!neglectKeys.some(word => msgAddress?.includes(word)))
+        return {...ele, isCredited: false};
+      }
+    });
+    var credited = finalGain?.filter(ele => ele);
+    var debited = finalLoss?.filter(ele => ele);
+    var doubleDebited = finalDoubleLoss?.filter(ele => ele);
 
-  return newData;
+    var newData = [...credited, ...debited, ...doubleDebited]?.sort(function (
+      x,
+      y,
+    ) {
+      return y?.time - x?.time;
+    });
+
+    return new Promise.resolve(newData);
+  } catch (error) {
+    Promise.reject([]);
+    return [];
+    console.log('🚀 ~ file: Helper.js:253 ~ filterSMS ~ error:', error);
+  }
 };
 export const uniqueArray = (data, key) => {
   return [...new Map(data.map(item => [item[key], item])).values()];

@@ -8,8 +8,7 @@ import {
   hasUPIid,
   sumSameDayTrans,
 } from '../Utils/Helper';
-import moment from 'moment';
-var specialChars = '!@#$^&%*()+=-[]/{}|:<>?,.';
+
 class MainStore {
   sms = [];
   resentTrans = [];
@@ -31,14 +30,18 @@ class MainStore {
   constructor() {
     makeAutoObservable(this);
   }
-  setSms(value) {
+  async setSms(value) {
     if (value?.length > 0) {
       var tempData = value.map(res => ({
         ...res,
         time: res.time ? res?.time : res.date,
       }));
 
-      var list = filterSMS(tempData);
+      var list = await filterSMS(tempData);
+      console.log(
+        '🚀 ~ file: MainStore.js:41 ~ MainStore ~ setSms ~ list:',
+        list,
+      );
 
       var finalAmount = 0;
       var Expanse = 0;

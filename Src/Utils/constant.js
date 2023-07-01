@@ -86,7 +86,7 @@ export const indianBanks = [
     code: 'CBI',
   },
   {
-    name: 'Citibank,',
+    name: 'Citibank',
     code: 'CITI',
   },
   {
@@ -114,7 +114,7 @@ export const indianBanks = [
     code: 'HDFC',
   },
   {
-    name: 'HSBC,',
+    name: 'HSBC',
     code: 'HSBC',
   },
   {

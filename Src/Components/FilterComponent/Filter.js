@@ -30,7 +30,8 @@ const Filter = ({close}) => {
         style={[
           styles.pill,
           {
-            backgroundColor:
+            // borderWidth: Bank?.code === item?.code ? 1 : 0,
+            borderColor:
               Bank?.code === item?.code ? colors.my_addOne : colors.my_tertiary,
           },
         ]}>
@@ -40,14 +41,14 @@ const Filter = ({close}) => {
             source={indianBankLogo[item?.code]}
           />
         </View>
-        <TextCustom
+        {/* <TextCustom
           title={item?.code}
           styles={{
             textAlign: 'center',
             fontSize: 16,
             marginTop: 3,
           }}
-        />
+        /> */}
       </TouchableOpacity>
     );
   };
@@ -106,7 +107,9 @@ const Filter = ({close}) => {
               style={[
                 styles.pill,
                 {
-                  backgroundColor:
+                  // borderWidth: type?.isCredit === 'credit' ? 1 : 0,
+
+                  borderColor:
                     type?.isCredit === 'credit'
                       ? colors.my_addOne
                       : colors.my_tertiary,
@@ -126,7 +129,9 @@ const Filter = ({close}) => {
               style={[
                 styles.pill,
                 {
-                  backgroundColor:
+                  // borderWidth: type?.isCredit === 'debit' ? 1 : 0,
+
+                  borderColor:
                     type?.isCredit === 'debit'
                       ? colors.my_addOne
                       : colors.my_tertiary,
@@ -149,19 +154,19 @@ const Filter = ({close}) => {
           width: '100%',
           marginTop: 50,
           flexDirection: 'row',
-          justifyContent: 'space-around',
+          justifyContent: 'space-evenly',
           alignSelf: 'flex-end',
         }}>
         <ButtonCustom
           title={'Apply'}
-          extraStyles={{width: '48%'}}
+          extraStyles={{width: '45%'}}
           onPress={onApply}
         />
         <ButtonCustom
           onPress={close}
           title={'Cancel'}
           extraStyles={{
-            width: '48%',
+            width: '45%',
             backgroundColor: colors.my_white,
             borderColor: colors.my_Black,
             borderWidth: 1,
@@ -180,13 +185,14 @@ export default observer(Filter);
 const getStyles = () =>
   StyleSheet.create({
     pill: {
-      padding: 12,
+      padding: 10,
       borderRadius: 40,
       marginHorizontal: 8,
-      width: 120,
+      width: 100,
       alignContent: 'center',
-      justifyContent: 'space-evenly',
+      borderWidth: 1,
+      // justifyContent: 'space-evenly',
       alignItems: 'center',
-      flexDirection: 'row',
+      // flexDirection: 'row',
     },
   });
