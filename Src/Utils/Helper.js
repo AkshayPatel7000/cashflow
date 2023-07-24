@@ -75,11 +75,14 @@ export function extractAmountFromSMS(smsText) {
   const regexINRDOT = /inr.\s*([\d,]+)/; // Assuming the amount is in INR currency
   const regexRS = /rs\s*([\d,]+)/; // Assuming the amount is in INR currency
   const regexRSDot = /rs.\s*([\d,]+)/; // Assuming the amount is in INR currency
+  const regexDBy = /debitedby\s*([\d,]+)/; // Assuming the amount is in INR currency
 
   const match = smsText?.match(regex);
   const matchINRDOT = smsText?.match(regexINRDOT);
   const matchRS = smsText?.match(regexRS);
   const matchRSDot = smsText?.match(regexRSDot);
+  const matchDby = smsText?.match(regexDBy);
+
   if (match && match[1]) {
     const amountString = match[1].replace(/,/g, ''); // Remove any commas in the amount string
     return amountString;
@@ -95,6 +98,10 @@ export function extractAmountFromSMS(smsText) {
   }
   if (matchRSDot && matchRSDot[1]) {
     const amountString = matchRSDot[1].replace(/,/g, ''); // Remove any commas in the amount string
+    return amountString;
+  }
+  if (matchDby && matchDby[1]) {
+    const amountString = matchDby[1].replace(/,/g, ''); // Remove any commas in the amount string
     return amountString;
   }
 }

@@ -13,6 +13,7 @@ class MainStore {
   sms = [];
   resentTrans = [];
   totalAmount = 0;
+  todaysTotal = {credit: 0, debit: 0};
   totalIncome = 0;
   totalExpense = 0;
   TransactionsDetail = {};
@@ -36,13 +37,7 @@ class MainStore {
         ...res,
         time: res.time ? res?.time : res.date,
       }));
-
       var list = await filterSMS(tempData);
-      console.log(
-        '🚀 ~ file: MainStore.js:41 ~ MainStore ~ setSms ~ list:',
-        list,
-      );
-
       var finalAmount = 0;
       var Expanse = 0;
       var income = 0;
@@ -103,7 +98,7 @@ class MainStore {
       // );
       this.sms = temp;
       this.filteredSMS = temp;
-      this.resentTrans = temp?.slice(0, 5);
+
       this.totalAmount = finalAmount;
       this.totalIncome = income;
       this.totalExpense = Expanse;
@@ -112,27 +107,45 @@ class MainStore {
   }
 
   setRecentGraphData(list) {
-    var filteredData = filterByDays(list, 5);
+    this.resentTrans = filterByDays(list, 1);
+    var filteredData = filterByDays(list, 6);
     var filteredDataLabel = sumSameDayTrans(filteredData);
-    var creditDates = Object.keys(filteredDataLabel?.credit);
-    var debitDates = Object.keys(filteredDataLabel?.debit);
+    console.log(
+      '🚀 ~ file: MainStore.js:113 ~ MainStore ~ setRecentGraphData ~ filteredDataLabel:',
+      filteredData,
+    );
+    var creditDates = Object?.keys(filteredDataLabel?.credit);
+    var debitDates = Object?.keys(filteredDataLabel?.debit);
     var label = [...new Set([...creditDates, ...debitDates])].sort();
 
-    var creditAmount = label.map(e => {
+    var creditAmount = label?.map(e => {
       if (filteredDataLabel?.credit[e]) {
         return filteredDataLabel?.credit[e].amount;
       } else {
         return 0;
       }
     });
-    var debitAmount = label.map(e => {
+    var debitAmount = label?.map(e => {
       if (filteredDataLabel?.debit[e]) {
-        return filteredDataLabel?.debit[e].amount;
+        return filteredDataLabel?.debit[e].amount || 0;
       } else {
         return 0;
       }
     });
 
+    this.todaysTotal.credit = creditAmount?.reduce(
+      (partialSum, a) => partialSum + a,
+      0,
+    );
+    this.todaysTotal.debit = debitAmount?.reduce(
+      (partialSum, a) => partialSum + a,
+      0,
+    );
+    console.log({
+      label: label,
+      credit: creditAmount,
+      debit: debitAmount,
+    });
     this.recentGraphData = {
       label: label,
       credit: creditAmount,

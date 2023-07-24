@@ -3,23 +3,29 @@ import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {Shadow} from '../../Utils/constant';
 import TextCustom from '../Text/Text';
+import {observer} from 'mobx-react';
+import {mainStore} from '../../Store/MainStore';
 
 const BudgetContainer = () => {
   const styles = getStyles();
+  console.log('mainStore?.todaysTotal?.debit', mainStore);
   return (
     <View style={[styles.main, Shadow]}>
       <View>
-        <TextCustom title={'Budget for this month'} styles={styles.mainHead} />
-        <TextCustom title={'Cash Available'} styles={styles.mainSubHead} />
+        <TextCustom title={'Spent of the day'} styles={styles.mainHead} />
+        <TextCustom title={'Cash Debited'} styles={styles.mainSubHead} />
       </View>
       <View>
-        <TextCustom title={'₹ 2,478'} styles={styles.mainAmountText} />
+        <TextCustom
+          title={`₹ ${mainStore?.todaysTotal?.debit}`}
+          styles={styles.mainAmountText}
+        />
       </View>
     </View>
   );
 };
 
-export default BudgetContainer;
+export default observer(BudgetContainer);
 
 const getStyles = () => {
   const {colors} = useTheme();
