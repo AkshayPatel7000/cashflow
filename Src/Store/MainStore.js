@@ -5,6 +5,7 @@ import {
   extractAmountFromSMS,
   filterByDays,
   filterSMS,
+  getTodaysTransactions,
   hasUPIid,
   sumSameDayTrans,
 } from '../Utils/Helper';
@@ -28,6 +29,7 @@ class MainStore {
     Bank: {},
     type: {isCredit: ''},
   };
+  selectedDate = new Date();
   constructor() {
     makeAutoObservable(this);
   }
@@ -88,14 +90,6 @@ class MainStore {
             : '',
         };
       });
-      // var dateTime = temp.map(res => {
-      //   var time = res.time ? res.time : res.date;
-      //   return moment(time).format('ll hh:mm:ss');
-      // });
-      // console.log(
-      //   '🚀 ~ file: MainStore.js:39 ~ MainStore ~ dateTime ~ dateTime:',
-      //   dateTime,
-      // );
       this.sms = temp;
       this.filteredSMS = temp;
 
@@ -107,13 +101,10 @@ class MainStore {
   }
 
   setRecentGraphData(list) {
-    this.resentTrans = filterByDays(list, 1);
+    this.setRecentTransactions(new Date(), list);
     var filteredData = filterByDays(list, 6);
     var filteredDataLabel = sumSameDayTrans(filteredData);
-    console.log(
-      '🚀 ~ file: MainStore.js:113 ~ MainStore ~ setRecentGraphData ~ filteredDataLabel:',
-      filteredData,
-    );
+
     var creditDates = Object?.keys(filteredDataLabel?.credit);
     var debitDates = Object?.keys(filteredDataLabel?.debit);
     var label = [...new Set([...creditDates, ...debitDates])].sort();
@@ -133,19 +124,15 @@ class MainStore {
       }
     });
 
-    this.todaysTotal.credit = creditAmount?.reduce(
-      (partialSum, a) => partialSum + a,
-      0,
-    );
-    this.todaysTotal.debit = debitAmount?.reduce(
-      (partialSum, a) => partialSum + a,
-      0,
-    );
-    console.log({
-      label: label,
-      credit: creditAmount,
-      debit: debitAmount,
-    });
+    // this.todaysTotal.credit = todayTrans?.reduce(
+    //   (partialSum, a) => partialSum + a.amount,
+    //   0,
+    // );
+    // this.todaysTotal.debit = debitAmount?.reduce(
+    //   (partialSum, a) => partialSum + a,
+    //   0,
+    // );
+
     this.recentGraphData = {
       label: label,
       credit: creditAmount,
@@ -160,10 +147,6 @@ class MainStore {
     this.userAllBanks = value;
   }
   setFilterByBank(value) {
-    console.log(
-      '🚀 ~ file: MainStore.js:147 ~ MainStore ~ setFilterByBank ~ value:',
-      value,
-    );
     this.fSelectedBank = value;
     var temp = this.sms;
     if (value?.Bank?.code) {
@@ -183,6 +166,29 @@ class MainStore {
   clearFilter() {
     this.fSelectedBank = {};
     this.filteredSMS = this.sms;
+  }
+
+  setRecentTransactions(date = new Date(), list = this.filteredSMS) {
+    this.selectedDate = date;
+    const todayTrans = getTodaysTransactions(list, date);
+    var filteredDataLabel = sumSameDayTrans(todayTrans);
+    console.log(
+      '🚀 ~ file: MainStore.js:176 ~ MainStore ~ setRecentTransactions ~ filteredDataLabel:',
+      Object.values(filteredDataLabel?.debit)[0].amount,
+      Object.values(filteredDataLabel?.credit).length > 0
+        ? Object.values(filteredDataLabel?.credit)[0].amount
+        : 0,
+    );
+    this.todaysTotal.credit =
+      Object.values(filteredDataLabel?.credit).length > 0
+        ? Object.values(filteredDataLabel?.credit)[0].amount
+        : 0;
+
+    this.todaysTotal.debit =
+      Object.values(filteredDataLabel?.debit).length > 0
+        ? Object.values(filteredDataLabel?.debit)[0].amount
+        : 0;
+    this.resentTrans = todayTrans;
   }
 }
 

@@ -1,5 +1,5 @@
 import {useTheme} from '@react-navigation/native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -7,11 +7,15 @@ import {Shadow} from '../../Utils/constant';
 import TextCustom from '../Text/Text';
 import {observer} from 'mobx-react';
 import {mainStore} from '../../Store/MainStore';
+import DateTimePicker, {
+  DateTimePickerAndroid,
+} from '@react-native-community/datetimepicker';
 const screenWidth = Dimensions.get('screen').width;
 const screenHeight = Dimensions.get('screen').height;
 const CardChart = () => {
   const styles = GetStyles();
   const {colors} = useTheme();
+  const [date, setDate] = useState(new Date());
   const data = {
     labels: mainStore?.recentGraphData?.label,
 
@@ -45,6 +49,36 @@ const CardChart = () => {
     },
   };
 
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    if (event.type === 'neutralButtonPressed') {
+      mainStore.setRecentTransactions(new Date());
+      return setDate(new Date());
+    }
+    console.log(
+      '🚀 ~ file: CardChart.js:60 ~ onChange ~ currentDate:',
+      currentDate,
+    );
+
+    mainStore.setRecentTransactions(currentDate);
+    setDate(currentDate);
+  };
+
+  const showMode = currentMode => {
+    DateTimePickerAndroid.open({
+      value: date,
+      onChange,
+      mode: currentMode,
+      is24Hour: true,
+      maximumDate: new Date(),
+      neutralButton: {label: 'Clear', textColor: 'grey'},
+    });
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
   return (
     <View style={[styles.main, Shadow]}>
       <View style={styles.InExpContainer}>
@@ -66,7 +100,7 @@ const CardChart = () => {
             styles={styles.textAmount}
           />
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={showDatepicker}>
           <Icon name={'calendar'} size={24} color={colors.text} />
         </TouchableOpacity>
       </View>

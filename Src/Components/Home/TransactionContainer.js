@@ -11,7 +11,7 @@ const TransactionContainer = () => {
   return (
     <View style={styles.main}>
       <View style={styles.headingContainer}>
-        <TextCustom title={'Recent Transections'} styles={styles.mainHeading} />
+        <TextCustom title={'Transactions'} styles={styles.mainHeading} />
         <TouchableOpacity onPress={() => navigation.navigate('Expenses')}>
           <TextCustom title={'View All'} styles={styles.mainSubHeading} />
         </TouchableOpacity>

@@ -177,23 +177,10 @@ export const hasUPIid = smsText => {
 export const filterSMS = async list => {
   try {
     const indianBanks = await LocalStorage.getUserBank();
-    console.log(
-      '🚀 ~ file: Helper.js:171 ~ filterSMS ~ indianBanks:',
-      indianBanks,
-    );
+
     const arrayGain = ['credited', 'creditedto', 'Credited'];
     const arrayLoss = ['debited', 'spent', "'debitedfor'"];
-    const neglectKeys = [
-      'air',
-      'vi',
-      'rec',
-      'airt',
-      'inox',
-      'niga',
-      'rush',
-      'bero',
-      'mpo',
-    ];
+
     var otherList = [];
     var doubleList = [];
 
@@ -285,6 +272,20 @@ export const filterByDays = (list = [], days = 10) => {
   // Filter dates that are within the last 10 days
   const lastTenDaysData = dateStrings?.filter(
     date => date?.time >= tenDaysAgo && date?.time <= currentDate,
+  );
+
+  return lastTenDaysData;
+};
+
+export const getTodaysTransactions = (list = [], date = new Date()) => {
+  const dateStrings = list;
+
+  // Get the current date
+  const currentDate = date;
+
+  // Filter dates that are within the last 10 days
+  const lastTenDaysData = dateStrings?.filter(
+    date => moment(date?.time).format('ll') == moment(currentDate).format('ll'),
   );
 
   return lastTenDaysData;

@@ -8,7 +8,7 @@ import {mainStore} from '../../Store/MainStore';
 
 const BudgetContainer = () => {
   const styles = getStyles();
-  console.log('mainStore?.todaysTotal?.debit', mainStore);
+
   return (
     <View style={[styles.main, Shadow]}>
       <View>
