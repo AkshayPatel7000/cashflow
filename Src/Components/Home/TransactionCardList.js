@@ -109,13 +109,29 @@ const TransactionCardList = ({data, isRecent = false}) => {
   };
 
   return (
-    <FlatList
-      data={data}
-      initialNumToRender={50}
-      renderItem={renderItem}
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-    />
+    <>
+      {data.length > 0 ? (
+        <FlatList
+          data={data}
+          initialNumToRender={50}
+          renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        />
+      ) : (
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            flex: 1,
+          }}>
+          <TextCustom
+            title={'No Transaction Found'}
+            styles={{paddingVertical: 30}}
+          />
+        </View>
+      )}
+    </>
   );
 };
 

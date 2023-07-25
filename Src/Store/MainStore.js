@@ -171,14 +171,9 @@ class MainStore {
   setRecentTransactions(date = new Date(), list = this.filteredSMS) {
     this.selectedDate = date;
     const todayTrans = getTodaysTransactions(list, date);
+    this.resentTrans = todayTrans;
     var filteredDataLabel = sumSameDayTrans(todayTrans);
-    console.log(
-      '🚀 ~ file: MainStore.js:176 ~ MainStore ~ setRecentTransactions ~ filteredDataLabel:',
-      Object.values(filteredDataLabel?.debit)[0].amount,
-      Object.values(filteredDataLabel?.credit).length > 0
-        ? Object.values(filteredDataLabel?.credit)[0].amount
-        : 0,
-    );
+    console.log('🚀 ~ file: MainStore.js:176', todayTrans);
     this.todaysTotal.credit =
       Object.values(filteredDataLabel?.credit).length > 0
         ? Object.values(filteredDataLabel?.credit)[0].amount
@@ -188,7 +183,6 @@ class MainStore {
       Object.values(filteredDataLabel?.debit).length > 0
         ? Object.values(filteredDataLabel?.debit)[0].amount
         : 0;
-    this.resentTrans = todayTrans;
   }
 }
 
