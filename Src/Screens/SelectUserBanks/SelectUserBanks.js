@@ -15,7 +15,7 @@ import {LocalStorage} from '../../Utils/localStorage';
 import CommonHeader from '../../Components/Headers/CommonHeader';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {_onSmsListenerPressed} from '../../Utils/Helper';
+import {_onSmsListenerPressed, request_PERMISSIONS} from '../../Utils/Helper';
 const SelectUserBanks = props => {
   const {colors} = useTheme();
   const navigation = useNavigation();
@@ -52,9 +52,9 @@ const SelectUserBanks = props => {
     }
   };
 
-  const onContinue = () => {
+  const onContinue = async () => {
     LocalStorage.storeUserBank(SelectedList);
-
+    await request_PERMISSIONS('android.permission.READ_SMS');
     if (props?.route?.params?.setting) {
       _onSmsListenerPressed();
     }
@@ -152,6 +152,7 @@ const SelectUserBanks = props => {
           style={{
             width: '85%',
             backgroundColor: '#efefef45',
+            color: colors.text,
           }}
         />
         <View>

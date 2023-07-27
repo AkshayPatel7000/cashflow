@@ -94,8 +94,8 @@ class MainStore {
       this.filteredSMS = temp;
 
       this.totalAmount = finalAmount;
-      this.totalIncome = income;
-      this.totalExpense = Expanse;
+      // this.totalIncome = income;
+      // this.totalExpense = Expanse;
       this.setRecentGraphData(temp);
     }
   }
@@ -124,14 +124,22 @@ class MainStore {
       }
     });
 
-    // this.todaysTotal.credit = todayTrans?.reduce(
-    //   (partialSum, a) => partialSum + a.amount,
-    //   0,
-    // );
-    // this.todaysTotal.debit = debitAmount?.reduce(
-    //   (partialSum, a) => partialSum + a,
-    //   0,
-    // );
+    const todaysTotalcredit = creditAmount?.reduce(
+      (partialSum, a) => partialSum + a,
+      0,
+    );
+    const todaysTotaldebit = debitAmount?.reduce(
+      (partialSum, a) => partialSum + a,
+      0,
+    );
+
+    this.totalIncome = todaysTotalcredit;
+    this.totalExpense = todaysTotaldebit;
+    console.log(
+      '🚀 ~ file: MainStore.js:132 ~ MainStore ~ setRecentGraphData ~ todaysTotal:',
+      todaysTotalcredit,
+      todaysTotaldebit,
+    );
 
     this.recentGraphData = {
       label: label,

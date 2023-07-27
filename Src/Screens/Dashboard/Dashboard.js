@@ -1,4 +1,11 @@
-import {Linking, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Container from '../../Components/Container/Container';
 import TextCustom from '../../Components/Text/Text';
@@ -10,6 +17,7 @@ import TransactionContainer from '../../Components/Home/TransactionContainer';
 import {check} from 'react-native-permissions';
 import {_onSmsListenerPressed, request_PERMISSIONS} from '../../Utils/Helper';
 import {observer} from 'mobx-react';
+import Lottie from 'lottie-react-native';
 
 const Dashboard = props => {
   const [hasPer, sethasPer] = useState(false);
@@ -26,7 +34,6 @@ const Dashboard = props => {
   };
   const reqPerm = async () => {
     var request = await request_PERMISSIONS('android.permission.READ_SMS');
-    console.log('🚀 ~ file: Dashboard.js:27 ~ reqPerm ~ request:', request);
     if (request === 'blocked') {
       return Linking.openSettings();
     }
@@ -38,8 +45,26 @@ const Dashboard = props => {
   if (!hasPer) {
     return (
       <Container>
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <TextCustom title={'Please allow SMS permission'} />
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'space-evenly',
+            alignItems: 'center',
+            marginBottom: 20,
+          }}>
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Lottie
+              source={require('../../Assets/JSON/wait.json')}
+              autoPlay
+              loop
+              style={{width: Dimensions.get('screen').width * 0.7}}
+            />
+            <TextCustom
+              title={'Allow me permission to fetch SMS.'}
+              styles={{fontSize: 16}}
+            />
+          </View>
           <TouchableOpacity
             onPress={() => reqPerm()}
             style={{
@@ -49,9 +74,8 @@ const Dashboard = props => {
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 20,
-              marginTop: 20,
             }}>
-            <TextCustom title={'Grant Permission'} styles={{color: '#fff'}} />
+            <TextCustom title={'Allow'} styles={{color: '#fff'}} />
           </TouchableOpacity>
         </View>
       </Container>

@@ -1,14 +1,11 @@
 import {observer} from 'mobx-react';
 import React, {useLayoutEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {PERMISSIONS} from 'react-native-permissions';
+import {StyleSheet, Text} from 'react-native';
+
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+
 import Loading from './Src/Components/Loading';
 import Routes from './Src/Navigation/Routes';
-import {
-  _onSmsListenerPressed,
-  check_PERMISSIONS_STATUS,
-} from './Src/Utils/Helper';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 const App = () => {
   if (Text.defaultProps == null) {
     Text.defaultProps = {};
