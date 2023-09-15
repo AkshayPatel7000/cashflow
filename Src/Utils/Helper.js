@@ -5,6 +5,7 @@ import {mainStore} from '../Store/MainStore';
 import moment from 'moment';
 import {Linking} from 'react-native';
 import {LocalStorage} from './localStorage';
+import {Months} from './constant';
 
 export const check_PERMISSIONS_STATUS = async permission => {
   try {
@@ -179,7 +180,7 @@ export const filterSMS = async list => {
     const indianBanks = await LocalStorage.getUserBank();
 
     const arrayGain = ['credited', 'creditedto', 'Credited'];
-    const arrayLoss = ['debited', 'spent', "'debitedfor'"];
+    const arrayLoss = ['debited', 'spent', 'debited for', 'Money Transfer:'];
 
     var otherList = [];
     var doubleList = [];
@@ -205,7 +206,6 @@ export const filterSMS = async list => {
         if (
           indianBanks.some(word => {
             var d = new RegExp(word.code);
-
             if (d.test(msgAddress)) {
               code = word;
             }
@@ -230,13 +230,14 @@ export const filterSMS = async list => {
         return {...ele, isCredited: false};
       }
     });
+
     var finalLoss = otherList?.map(ele => {
-      var msgAddress = ele?.address?.toLowerCase();
       if (arrayLoss.some(word => ele?.body?.includes(word))) {
-        // if (!neglectKeys.some(word => msgAddress?.includes(word)))
         return {...ele, isCredited: false};
       }
     });
+    console.log('🚀 ~ file: Helper.js:240 ~ finalLoss ~ finalLoss:', finalLoss);
+
     var credited = finalGain?.filter(ele => ele);
     var debited = finalLoss?.filter(ele => ele);
     var doubleDebited = finalDoubleLoss?.filter(ele => ele);
@@ -275,6 +276,23 @@ export const filterByDays = (list = [], days = 10) => {
   );
 
   return lastTenDaysData;
+};
+export const filterByMonth = (list = []) => {
+  const dateStrings = list;
+  const MonthsArray = Months;
+  var filterMonths = MonthsArray.map(ele => {
+    var dataList = dateStrings.filter(item => {
+      return moment(item.time).format('MMM YY') === `${ele.shortName} 23`;
+    });
+
+    return {
+      month: ele.name,
+      dataList: dataList,
+    };
+  });
+  var filterMonthsNoDate = filterMonths.filter(ele => ele.dataList.length > 0);
+
+  return filterMonthsNoDate;
 };
 
 export const getTodaysTransactions = (list = [], date = new Date()) => {

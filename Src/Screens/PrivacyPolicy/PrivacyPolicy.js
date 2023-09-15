@@ -2,11 +2,12 @@ import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Container from '../../Components/Container/Container';
 import TextCustom from '../../Components/Text/Text';
+import WebView from 'react-native-webview';
 
 const PrivacyPolicy = () => {
   return (
     <Container>
-      <ScrollView contentContainerStyle={{padding: 20}}>
+      {/* <ScrollView contentContainerStyle={{padding: 20}}>
         <TextCustom title={'Privacy Policy'} styles={styles.heading} />
         <TextCustom
           title={
@@ -147,7 +148,11 @@ const PrivacyPolicy = () => {
             styles={styles.subPoint}
           />
         </View>
-      </ScrollView>
+      </ScrollView> */}
+      <WebView
+        style={{flex: 1}}
+        source={{uri: 'https://cashflowapp.w3spaces.com'}}
+      />
     </Container>
   );
 };

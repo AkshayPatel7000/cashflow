@@ -1,4 +1,4 @@
-package com.cashflow;
+package com.cashflow.app;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

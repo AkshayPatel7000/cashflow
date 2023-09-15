@@ -1,4 +1,4 @@
-package com.cashflow;
+package com.cashflow.app;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

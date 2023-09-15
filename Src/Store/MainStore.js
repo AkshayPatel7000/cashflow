@@ -4,6 +4,7 @@ import {
   IsCreditCard,
   extractAmountFromSMS,
   filterByDays,
+  filterByMonth,
   filterSMS,
   getTodaysTransactions,
   hasUPIid,
@@ -30,6 +31,7 @@ class MainStore {
     type: {isCredit: ''},
   };
   selectedDate = new Date();
+  filterMyMonths = [];
   constructor() {
     makeAutoObservable(this);
   }
@@ -40,6 +42,7 @@ class MainStore {
         time: res.time ? res?.time : res.date,
       }));
       var list = await filterSMS(tempData);
+
       var finalAmount = 0;
       var Expanse = 0;
       var income = 0;
@@ -96,6 +99,7 @@ class MainStore {
       this.totalAmount = finalAmount;
       // this.totalIncome = income;
       // this.totalExpense = Expanse;
+      this.setFilterByMonth(temp);
       this.setRecentGraphData(temp);
     }
   }
@@ -175,7 +179,9 @@ class MainStore {
     this.fSelectedBank = {};
     this.filteredSMS = this.sms;
   }
-
+  setFilterByMonth(value) {
+    this.filterMyMonths = filterByMonth(value);
+  }
   setRecentTransactions(date = new Date(), list = this.filteredSMS) {
     this.selectedDate = date;
     const todayTrans = getTodaysTransactions(list, date);

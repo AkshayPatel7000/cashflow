@@ -14,6 +14,7 @@ import TextCustom from '../Text/Text';
 import {mainStore} from '../../Store/MainStore';
 import {observer} from 'mobx-react';
 import moment from 'moment';
+import TransactionCard from './TransactionCard';
 const TransactionCardList = ({data, isRecent = false}) => {
   const styles = getStyles();
   const {colors} = useTheme();
@@ -22,91 +23,6 @@ const TransactionCardList = ({data, isRecent = false}) => {
     mainStore.setTransactionDetail({...item});
     navigation.navigate('TransactionsDetail');
   };
-  const renderItem = ({item}) => {
-    return (
-      <TouchableOpacity
-        onPress={() => move(item)}
-        style={[styles.transactionCard, Shadow]}>
-        {!indianBankLogo[item?.code] ? (
-          <SVG.BankSVG />
-        ) : (
-          <View style={{width: 55, height: 55}}>
-            <Image
-              source={indianBankLogo[item?.code]}
-              style={{width: '100%', height: '100%'}}
-            />
-          </View>
-        )}
-        <View style={styles.textContainer}>
-          <View style={{width: '70%'}}>
-            <TextCustom
-              title={item?.address}
-              styles={styles.mainHeading}
-              numberOfLines={1}
-            />
-            {isRecent ? (
-              <TextCustom
-                title={moment(item.time).fromNow()}
-                styles={styles.mainSubHeading}
-              />
-            ) : (
-              <TextCustom
-                title={moment(item.time).format('DD/MM/YYYY, LT')}
-                styles={styles.mainSubHeading}
-              />
-            )}
-          </View>
-          <View
-            style={{
-              // flexDirection: 'row',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              width: '33%',
-            }}>
-            {item.amount ? (
-              <>
-                <TextCustom
-                  numberOfLines={1}
-                  title={`${item?.isCredited ? '+₹' : '-₹'}${Number(
-                    item.amount,
-                  )?.toLocaleString('hi-IN')}.00`}
-                  styles={{
-                    width: '100%',
-
-                    ...styles.mainHeading,
-                    fontSize: 14,
-                    color: item?.isCredited
-                      ? colors.my_tertiary
-                      : colors.my_addOne,
-                    textAlign: 'right',
-                  }}
-                />
-              </>
-            ) : (
-              <TextCustom
-                title={item?.isCredited ? '+₹ ' : '-₹ '}
-                styles={{
-                  ...styles.mainHeading,
-                  color: item?.isCredited
-                    ? colors.my_tertiary
-                    : colors.my_addOne,
-                }}
-              />
-            )}
-
-            <TextCustom
-              title={item?.code}
-              styles={{
-                ...styles.mainSubHeading,
-                textAlign: 'right',
-                width: '100%',
-              }}
-            />
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
 
   return (
     <>
@@ -114,7 +30,9 @@ const TransactionCardList = ({data, isRecent = false}) => {
         <FlatList
           data={data}
           initialNumToRender={50}
-          renderItem={renderItem}
+          renderItem={({item}) => (
+            <TransactionCard item={item} move={move} isRecent={isRecent} />
+          )}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         />
