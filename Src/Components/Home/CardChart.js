@@ -55,10 +55,6 @@ const CardChart = () => {
       mainStore.setRecentTransactions(new Date());
       return setDate(new Date());
     }
-    console.log(
-      '🚀 ~ file: CardChart.js:60 ~ onChange ~ currentDate:',
-      currentDate,
-    );
 
     mainStore.setRecentTransactions(currentDate);
     setDate(currentDate);

@@ -179,8 +179,8 @@ export const filterSMS = async list => {
   try {
     const indianBanks = await LocalStorage.getUserBank();
 
-    const arrayGain = ['credited', 'creditedto', 'Credited'];
-    const arrayLoss = ['debited', 'spent', 'debited for', 'Money Transfer:'];
+    const arrayGain = mainStore.firebaseData.credits;
+    const arrayLoss = mainStore.firebaseData.debits;
 
     var otherList = [];
     var doubleList = [];
@@ -236,7 +236,6 @@ export const filterSMS = async list => {
         return {...ele, isCredited: false};
       }
     });
-    console.log('🚀 ~ file: Helper.js:240 ~ finalLoss ~ finalLoss:', finalLoss);
 
     var credited = finalGain?.filter(ele => ele);
     var debited = finalLoss?.filter(ele => ele);

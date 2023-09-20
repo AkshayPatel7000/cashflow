@@ -31,9 +31,26 @@ class MainStore {
     type: {isCredit: ''},
   };
   selectedDate = new Date();
-  filterMyMonths = [];
+  filterMyMonths = {
+    credits: ['credited', 'creditedto', 'Credited'],
+    debits: [
+      'debited',
+      'spent',
+      'debited for',
+      'Money Transfer:',
+      'transaction number',
+    ],
+  };
+
+  firebaseData = {};
   constructor() {
     makeAutoObservable(this);
+  }
+
+  setFirebaseData(data) {
+    if (data.credits && data.debits) {
+      this.firebaseData = data;
+    }
   }
   async setSms(value) {
     if (value?.length > 0) {
@@ -139,11 +156,6 @@ class MainStore {
 
     this.totalIncome = todaysTotalcredit;
     this.totalExpense = todaysTotaldebit;
-    console.log(
-      '🚀 ~ file: MainStore.js:132 ~ MainStore ~ setRecentGraphData ~ todaysTotal:',
-      todaysTotalcredit,
-      todaysTotaldebit,
-    );
 
     this.recentGraphData = {
       label: label,
@@ -187,7 +199,6 @@ class MainStore {
     const todayTrans = getTodaysTransactions(list, date);
     this.resentTrans = todayTrans;
     var filteredDataLabel = sumSameDayTrans(todayTrans);
-    console.log('🚀 ~ file: MainStore.js:176', todayTrans);
     this.todaysTotal.credit =
       Object.values(filteredDataLabel?.credit).length > 0
         ? Object.values(filteredDataLabel?.credit)[0].amount
