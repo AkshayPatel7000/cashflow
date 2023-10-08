@@ -10,7 +10,7 @@
     "test": "jest",
     "android_R": "react-native run-android --variant=release",
 
-    "build": "cd android && ./gradlew assembleRelease && cd .. && open ./android/app/build/outputs/apk/release",
+    "build": "./version.sh && cd android && ./gradlew assembleRelease && cd .. && open ./android/app/build/outputs/apk/release",
     "buildBR": "cd android && ./gradlew bundleRelease && cd .. && open ./android/app/build/outputs/bundle/release"
   },
   "dependencies": {
