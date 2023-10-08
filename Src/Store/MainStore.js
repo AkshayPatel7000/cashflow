@@ -13,6 +13,7 @@ import {
 
 class MainStore {
   sms = [];
+  loading = false;
   resentTrans = [];
   totalAmount = 0;
   todaysTotal = {credit: 0, debit: 0};
@@ -46,78 +47,88 @@ class MainStore {
   constructor() {
     makeAutoObservable(this);
   }
-
+  setLoader(value) {
+    this.loading = value;
+  }
   setFirebaseData(data) {
     if (data.credits && data.debits) {
       this.firebaseData = data;
     }
   }
   async setSms(value) {
-    if (value?.length > 0) {
-      var tempData = value.map(res => ({
-        ...res,
-        time: res.time ? res?.time : res.date,
-      }));
-      var list = await filterSMS(tempData);
+    try {
+      if (value?.length > 0) {
+        var tempData = value.map(res => ({
+          ...res,
+          time: res.time ? res?.time : res.date,
+        }));
 
-      var finalAmount = 0;
-      var Expanse = 0;
-      var income = 0;
+        var list = await filterSMS(tempData);
 
-      var temp = list.map(item => {
-        var smsBody = item?.body?.toLowerCase()?.replace(/[^\w\.]/g, '');
+        var finalAmount = 0;
+        var Expanse = 0;
+        var income = 0;
 
-        var amount = extractAmountFromSMS(smsBody);
-        var accountNumber = AccountNumber(smsBody);
-        var CARDNumber = IsCreditCard(smsBody);
-        var UPI_ID = hasUPIid(item?.body);
+        var temp = list.map(item => {
+          var smsBody = item?.body?.toLowerCase()?.replace(/[^\w\.]/g, '');
 
-        finalAmount = finalAmount + Number(amount);
+          var amount = extractAmountFromSMS(smsBody);
+          var accountNumber = AccountNumber(smsBody);
+          var CARDNumber = IsCreditCard(smsBody);
+          var UPI_ID = hasUPIid(item?.body);
 
-        income = item?.isCredited
-          ? Number(amount)
-            ? Number(income) + Number(amount)
-            : 0
-          : Number(income) + 0;
-        Expanse = !item?.isCredited
-          ? Number(amount)
-            ? Number(Expanse) + Number(amount)
-            : 0
-          : Expanse + 0;
-        return {
-          other: item,
+          finalAmount = finalAmount + Number(amount);
 
-          body: item?.body,
-          amount: amount,
-          address: UPI_ID
-            ? UPI_ID
-            : accountNumber
-            ? 'A/C XX' + accountNumber
-            : CARDNumber
-            ? 'CARD-' + CARDNumber
-            : item.address,
-          time: item.time ? item?.time : item.date,
-          isCredited: item?.isCredited,
-          title: accountNumber,
-          isCard: CARDNumber,
-          code: item?.code,
-          type: UPI_ID
-            ? 'UPI'
-            : CARDNumber
-            ? 'CARD'
-            : accountNumber
-            ? 'A/C'
-            : '',
-        };
-      });
-      this.sms = temp;
-      this.filteredSMS = temp;
+          income = item?.isCredited
+            ? Number(amount)
+              ? Number(income) + Number(amount)
+              : 0
+            : Number(income) + 0;
+          Expanse = !item?.isCredited
+            ? Number(amount)
+              ? Number(Expanse) + Number(amount)
+              : 0
+            : Expanse + 0;
+          return {
+            other: item,
 
-      this.totalAmount = finalAmount;
-      // this.totalIncome = income;
-      // this.totalExpense = Expanse;
-      this.setFilterByMonth(temp);
-      this.setRecentGraphData(temp);
+            body: item?.body,
+            amount: amount,
+            address: UPI_ID
+              ? UPI_ID
+              : accountNumber
+              ? 'A/C XX' + accountNumber
+              : CARDNumber
+              ? 'CARD-' + CARDNumber
+              : item.address,
+            time: item.time ? item?.time : item.date,
+            isCredited: item?.isCredited,
+            title: accountNumber,
+            isCard: CARDNumber,
+            code: item?.code,
+            type: UPI_ID
+              ? 'UPI'
+              : CARDNumber
+              ? 'CARD'
+              : accountNumber
+              ? 'A/C'
+              : '',
+          };
+        });
+        this.sms = temp;
+        this.filteredSMS = temp;
+
+        this.totalAmount = finalAmount;
+        // this.totalIncome = income;
+        // this.totalExpense = Expanse;
+        this.setFilterByMonth(temp);
+        this.setRecentGraphData(temp);
+      }
+    } catch (error) {
+      console.log(
+        '🛺 ~ file: MainStore.js:125 ~ MainStore ~ setSms ~ error:',
+        error,
+      );
     }
   }
 

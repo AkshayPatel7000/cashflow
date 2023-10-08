@@ -27,6 +27,7 @@ const Dashboard = props => {
 
   const init = async () => {
     const status = await check('android.permission.READ_SMS');
+
     if (status == 'granted') {
       _onSmsListenerPressed('android.permission.READ_SMS');
       sethasPer(true);
@@ -81,6 +82,7 @@ const Dashboard = props => {
       </Container>
     );
   }
+
   return (
     <Container>
       <HomeHeader />

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 // Import required components
 import {observer} from 'mobx-react';
 import {
+  FlatList,
   LayoutAnimation,
   Platform,
   ScrollView,
@@ -46,9 +47,12 @@ const ExpandableComponent = ({item, onClickFunction}) => {
           overflow: 'scroll',
         }}>
         {/*Content under the header of the Expandable List Item*/}
-        {item.dataList.map((item, key) => (
-          <TransactionCard item={item} ShowShadow={false} />
-        ))}
+        <FlatList
+          data={item.dataList}
+          renderItem={({item}) => {
+            return <TransactionCard item={item} ShowShadow={false} />;
+          }}
+        />
       </View>
     </View>
   );
@@ -85,7 +89,23 @@ const Wallet = () => {
       <CommonHeader title="Monthly View" />
       <VirtualizedScrollView
         contentContainerStyle={styles.contentContainerStyle}>
-        {listDataSource.map((item, key) => (
+        <FlatList
+          data={listDataSource}
+          renderItem={({item, index}) => {
+            return (
+              <ExpandableComponent
+                key={item.month}
+                onClickFunction={() => {
+                  mainStore.setLoader(true);
+                  updateLayout(index);
+                  mainStore.setLoader(false);
+                }}
+                item={item}
+              />
+            );
+          }}
+        />
+        {/* {listDataSource.map((item, key) => (
           <ExpandableComponent
             key={item.month}
             onClickFunction={() => {
@@ -93,7 +113,7 @@ const Wallet = () => {
             }}
             item={item}
           />
-        ))}
+        ))} */}
       </VirtualizedScrollView>
 
       {/* <View

@@ -1,9 +1,9 @@
 import {RESULTS, check, request} from 'react-native-permissions';
-// import {indianBanks} from './constant';
+
 import SmsAndroid from 'react-native-get-sms-android';
 import {mainStore} from '../Store/MainStore';
 import moment from 'moment';
-import {Linking} from 'react-native';
+import {Alert, Linking} from 'react-native';
 import {LocalStorage} from './localStorage';
 import {Months} from './constant';
 
@@ -177,17 +177,17 @@ export const hasUPIid = smsText => {
 };
 export const filterSMS = async list => {
   try {
-    const indianBanks = await LocalStorage.getUserBank();
+    const indianBanks = await LocalStorage?.getUserBank();
 
-    const arrayGain = mainStore.firebaseData.credits;
-    const arrayLoss = mainStore.firebaseData.debits;
+    const arrayGain = mainStore?.firebaseData?.credits;
+    const arrayLoss = mainStore?.firebaseData?.debits;
 
     var otherList = [];
     var doubleList = [];
 
     list?.map(ele => {
       var msgAddress = ele?.address;
-
+      // === '+917000423629' ? 'union' : ele?.address;
       var code = '';
       if (
         ele?.body?.includes('credited') &&
@@ -218,21 +218,33 @@ export const filterSMS = async list => {
 
     var finalGain = otherList?.map(ele => {
       var msgAddress = ele?.address?.toLowerCase();
-      if (arrayGain.some(word => ele?.body?.includes(word))) {
-        // if (!neglectKeys.some(word => msgAddress?.includes(word)))
+      if (
+        arrayGain.some(word =>
+          ele?.body?.toLowerCase()?.includes(word?.toLowerCase()),
+        )
+      ) {
+        // if (!neglectKeys.some(word => msgAddress?.includes(word?.toLowerCase())))
         return {...ele, isCredited: true};
       }
     });
     var finalDoubleLoss = doubleList?.map(ele => {
       var msgAddress = ele?.address?.toLowerCase();
-      if (arrayLoss.some(word => ele?.body?.includes(word))) {
-        // if (!neglectKeys.some(word => msgAddress?.includes(word)))
+      if (
+        arrayLoss.some(word =>
+          ele?.body?.toLowerCase()?.includes(word?.toLowerCase()),
+        )
+      ) {
+        // if (!neglectKeys.some(word => msgAddress?.includes(word?.toLowerCase())))
         return {...ele, isCredited: false};
       }
     });
 
     var finalLoss = otherList?.map(ele => {
-      if (arrayLoss.some(word => ele?.body?.includes(word))) {
+      if (
+        arrayLoss.some(word =>
+          ele?.body?.toLowerCase()?.includes(word?.toLowerCase()),
+        )
+      ) {
         return {...ele, isCredited: false};
       }
     });
@@ -250,9 +262,10 @@ export const filterSMS = async list => {
 
     return new Promise.resolve(newData);
   } catch (error) {
+    console.log('🚀 ~ file: Helper.js:253 ~ filterSMS ~ error:', error);
+
     Promise.reject([]);
     return [];
-    console.log('🚀 ~ file: Helper.js:253 ~ filterSMS ~ error:', error);
   }
 };
 export const uniqueArray = (data, key) => {
@@ -364,4 +377,28 @@ export const getCommonBanks = () => {
   });
   console.log('🚀 ~ file: Helper.js:326 ~ getCommonBanks ~ banks:', banks);
   mainStore.setUserAllBanks(banks);
+};
+
+export const sendWhatsAppMessage = err => {
+  let link = 'whatsapp://send?text=' + err + '&phone=' + '+918435492115';
+
+  if (link) {
+    Linking.openURL(link)
+      .then(supported => {
+        console.log(
+          '🛺 ~ file: Helper.js:390 ~ sendWhatsAppMessage ~ supported:',
+          supported,
+        );
+        if (!supported) {
+          Alert.alert(
+            'Please install whats app to send direct message to students via whats app',
+          );
+        } else {
+          return Linking.openURL(link);
+        }
+      })
+      .catch(err => console.error('An error occurred', err));
+  } else {
+    console.log('sendWhatsAppMessage -----> ', 'message link is undefined');
+  }
 };

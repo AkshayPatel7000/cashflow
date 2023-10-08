@@ -47,7 +47,7 @@ import YES from '../Assets/images/YES.png';
 export const indianBanks = [
   {
     name: 'AU Small Finance Bank',
-    code: 'AUS',
+    code: 'AU',
   },
   {
     name: 'Airtel Payments Bank',
@@ -224,7 +224,7 @@ export const indianBanks = [
   },
   {
     name: 'Union Bank of India',
-    code: 'UBI',
+    code: 'union',
   },
   {
     name: 'Yes Bank',

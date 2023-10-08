@@ -16,13 +16,22 @@ import CommonHeader from '../../Components/Headers/CommonHeader';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {_onSmsListenerPressed, request_PERMISSIONS} from '../../Utils/Helper';
+import {observer} from 'mobx-react';
+import {mainStore} from '../../Store/MainStore';
 const SelectUserBanks = props => {
   const {colors} = useTheme();
   const navigation = useNavigation();
+
   const [List, setList] = useState(indianBanks);
   const [SelectedList, setSelectedList] = useState([]);
 
   useLayoutEffect(() => {
+    if (mainStore?.firebaseData?.BANKS?.length > 0) {
+      setList(mainStore?.firebaseData?.BANKS);
+    } else {
+      setList(indianBanks);
+    }
+
     init();
   }, []);
 
@@ -79,10 +88,17 @@ const SelectUserBanks = props => {
 
   const handleChange = value => {
     if (value.trim() === '') {
-      setList(indianBanks);
+      if (mainStore?.firebaseData?.BANKS?.length > 0) {
+        setList(mainStore?.firebaseData?.BANKS);
+      } else {
+        setList(indianBanks);
+      }
       return true;
     }
-    let tempdata = indianBanks;
+    let tempdata =
+      mainStore?.firebaseData?.BANKS?.length > 0
+        ? mainStore?.firebaseData?.BANKS
+        : indianBanks;
     tempdata = tempdata.filter(
       ele =>
         ele.code?.toLowerCase().includes(value?.toLowerCase()) ||
@@ -184,6 +200,6 @@ const SelectUserBanks = props => {
   );
 };
 
-export default SelectUserBanks;
+export default observer(SelectUserBanks);
 
 const styles = StyleSheet.create({});
