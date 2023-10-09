@@ -9,6 +9,7 @@ import Loading from './Src/Components/Loading';
 import Spinner from './Src/Components/Spinner';
 import Routes from './Src/Navigation/Routes';
 import {mainStore} from './Src/Store/MainStore';
+import RNErrorHandler from './Src/Components/ErrorBound/ErrorHandler';
 
 const App = () => {
   if (Text.defaultProps == null) {
@@ -19,7 +20,7 @@ const App = () => {
   const [loading, setloading] = useState(true);
   useLayoutEffect(() => {
     // check_PERMISSIONS_STATUS(PERMISSIONS.ANDROID.READ_SMS);
-
+    RNErrorHandler.getInstance().init();
     firestore()
       .collection('cashFlow')
       .get()
@@ -48,12 +49,12 @@ const App = () => {
   }
 
   return (
-    <ErrorBoundary>
-      <GestureHandlerRootView style={{flex: 1}}>
-        <Routes />
-        {mainStore.loading && <Spinner />}
-      </GestureHandlerRootView>
-    </ErrorBoundary>
+    // <ErrorBoundary>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <Routes />
+      {mainStore.loading && <Spinner />}
+    </GestureHandlerRootView>
+    // </ErrorBoundary>
   );
 };
 

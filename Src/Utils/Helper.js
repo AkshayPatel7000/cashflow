@@ -391,14 +391,21 @@ export const sendWhatsAppMessage = err => {
         );
         if (!supported) {
           Alert.alert(
-            'Please install whats app to send direct message to students via whats app',
+            'Please install whatsapp to send direct message to Developer via whats app',
           );
         } else {
           return Linking.openURL(link);
         }
       })
-      .catch(err => console.error('An error occurred', err));
+      .catch(err => {
+        Alert.alert(
+          'Please install whatsapp to send direct message to Developer via whats app',
+        );
+      });
   } else {
+    Alert.alert(
+      'Please install whatsapp to send direct message to Developer via whats app',
+    );
     console.log('sendWhatsAppMessage -----> ', 'message link is undefined');
   }
 };
