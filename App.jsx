@@ -10,6 +10,7 @@ import Spinner from './Src/Components/Spinner';
 import Routes from './Src/Navigation/Routes';
 import {mainStore} from './Src/Store/MainStore';
 import RNErrorHandler from './Src/Components/ErrorBound/ErrorHandler';
+import {indianBanks} from './Src/Utils/constant';
 
 const App = () => {
   if (Text.defaultProps == null) {
@@ -20,6 +21,7 @@ const App = () => {
   const [loading, setloading] = useState(true);
   useLayoutEffect(() => {
     // check_PERMISSIONS_STATUS(PERMISSIONS.ANDROID.READ_SMS);
+
     RNErrorHandler.getInstance().init();
     firestore()
       .collection('cashFlow')
@@ -31,6 +33,7 @@ const App = () => {
           finalData[key] = ele?.data()[key];
           return ele?.data();
         });
+
         mainStore?.setFirebaseData(finalData);
       })
       .catch(err => {

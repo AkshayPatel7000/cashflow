@@ -250,6 +250,10 @@ export const filterSMS = async list => {
     });
 
     var credited = finalGain?.filter(ele => ele);
+    console.log(
+      '🛺 ~ file: Helper.js:253 ~ filterSMS ~ credited:',
+      credited[0],
+    );
     var debited = finalLoss?.filter(ele => ele);
     var doubleDebited = finalDoubleLoss?.filter(ele => ele);
 

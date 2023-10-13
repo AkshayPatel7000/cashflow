@@ -27,12 +27,12 @@ const TransactionCard = ({
     <TouchableOpacity
       onPress={() => move(item)}
       style={[styles.transactionCard, ShowShadow && Shadow]}>
-      {!indianBankLogo[item?.code] ? (
+      {!indianBankLogo[item?.other.icon] ? (
         <SVG.BankSVG />
       ) : (
         <View style={{width: 55, height: 55}}>
           <Image
-            source={indianBankLogo[item?.code]}
+            source={indianBankLogo[item?.other.icon]}
             style={{width: '100%', height: '100%'}}
           />
         </View>

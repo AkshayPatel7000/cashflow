@@ -48,187 +48,232 @@ export const indianBanks = [
   {
     name: 'AU Small Finance Bank',
     code: 'AU',
+    icon: 'AU',
   },
   {
     name: 'Airtel Payments Bank',
     code: 'AIRP',
+    icon: 'AIRP',
   },
   {
     name: 'Allahabad Bank',
     code: 'ALB',
+    icon: 'ALB',
   },
   {
     name: 'Andhra Bank',
     code: 'ANDB',
+    icon: 'ANDB',
   },
   {
     name: 'Axis Bank',
     code: 'AXIS',
+    icon: 'AXIS',
   },
   {
     name: 'Bank of Baroda',
     code: 'BOB',
+    icon: 'BOB',
   },
   {
     name: 'Bank of India',
     code: 'BOI',
+    icon: 'BOI',
   },
   {
     name: 'Bank of Maharashtra',
     code: 'BOM',
+    icon: 'BOM',
   },
   {
     name: 'Canara Bank',
     code: 'CAN',
+    icon: 'CAN',
   },
   {
     name: 'Central Bank of India',
     code: 'CBI',
+    icon: 'CBI',
   },
   {
     name: 'Citibank',
     code: 'CITI',
+    icon: 'CITI',
   },
   {
     name: 'City Union Bank',
     code: 'CUB',
+    icon: 'CUB',
   },
   {
     name: 'DBS Bank',
     code: 'DBS',
+    icon: 'DBS',
   },
   {
     name: 'Dena Bank',
     code: 'DEN',
+    icon: 'DEN',
   },
   {
     name: 'Dhanlaxmi Bank',
     code: 'DLX',
+    icon: 'DLX',
   },
   {
     name: 'Federal Bank',
     code: 'FED',
+    icon: 'FED',
   },
   {
     name: 'HDFC Bank',
     code: 'HDFC',
+    icon: 'HDFC',
   },
   {
     name: 'HSBC',
     code: 'HSBC',
+    icon: 'HSBC',
   },
   {
     name: 'ICICI Bank',
     code: 'ICICI',
+    icon: 'ICICI',
   },
   {
     name: 'IDBI Bank',
     code: 'IDBI',
+    icon: 'IDBI',
   },
   {
     name: 'IDFC First Bank',
     code: 'IDFC',
+    icon: 'IDFC',
   },
-
   {
     name: 'Indian Overseas Bank',
     code: 'IOB',
+    icon: 'IOB',
   },
   {
     name: 'IndusInd Bank',
     code: 'INDUS',
+    icon: 'INDUS',
   },
   {
     name: 'Jammu and Kashmir Bank',
     code: 'JKB',
+    icon: 'JKB',
   },
   {
     name: 'Karur Vysya Bank',
     code: 'KVB',
+    icon: 'KVB',
   },
   {
     name: 'Kotak Mahindra Bank',
     code: 'KOTAK',
+    icon: 'KOTAK',
   },
   {
     name: 'Oriental Bank of Commerce',
     code: 'OBC',
+    icon: 'OBC',
   },
   {
     name: 'PAYTM PAYMENTS BANK',
     code: 'PAYTM',
+    icon: 'PAYTM',
   },
   {
     name: 'Punjab & Sind Bank',
     code: 'PSB',
+    icon: 'PSB',
   },
   {
     name: 'Punjab National Bank',
     code: 'PNB',
+    icon: 'PNB',
   },
   {
     name: 'RBL Bank',
     code: 'RBL',
+    icon: 'RBL',
   },
   {
     name: 'South Indian Bank',
     code: 'SIB',
+    icon: 'SIB',
   },
   {
     name: 'Standard Chartered Bank',
     code: 'SCB',
+    icon: 'SCB',
   },
   {
     name: 'State Bank of Bikaner & Jaipur',
     code: 'SBBJ',
+    icon: 'SBBJ',
   },
   {
     name: 'State Bank of Hyderabad',
     code: 'SBH',
+    icon: 'SBH',
   },
   {
     name: 'State Bank of India',
     code: 'SBI',
+    icon: 'SBI',
   },
   {
     name: 'State Bank of Indore',
     code: 'SBIR',
+    icon: 'SBIR',
   },
   {
     name: 'State Bank of Mysore',
     code: 'SBM',
+    icon: 'SBM',
   },
   {
     name: 'State Bank of Patiala',
     code: 'SBP',
+    icon: 'SBP',
   },
   {
     name: 'State Bank of Sikkim',
     code: 'SBS',
+    icon: 'SBS',
   },
   {
     name: 'State Bank of Travancore',
     code: 'SBT',
+    icon: 'SBT',
   },
   {
     name: 'Syndicate Bank',
     code: 'SYNB',
+    icon: 'SYNB',
   },
   {
     name: 'Tamilnad Mercantile Bank',
     code: 'TMB',
+    icon: 'TMB',
   },
   {
     name: 'UCO Bank',
     code: 'UCO',
+    icon: 'UCO',
   },
   {
     name: 'Union Bank of India',
     code: 'union',
+    icon: 'UBI',
   },
   {
     name: 'Yes Bank',
     code: 'YES',
+    icon: 'YES',
   },
 ];
 export const Shadow = {

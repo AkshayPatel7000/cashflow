@@ -18,6 +18,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {_onSmsListenerPressed, request_PERMISSIONS} from '../../Utils/Helper';
 import {observer} from 'mobx-react';
 import {mainStore} from '../../Store/MainStore';
+import firestore from '@react-native-firebase/firestore';
+
 const SelectUserBanks = props => {
   const {colors} = useTheme();
   const navigation = useNavigation();
@@ -26,11 +28,38 @@ const SelectUserBanks = props => {
   const [SelectedList, setSelectedList] = useState([]);
 
   useLayoutEffect(() => {
-    if (mainStore?.firebaseData?.BANKS?.length > 0) {
-      setList(mainStore?.firebaseData?.BANKS);
-    } else {
-      setList(indianBanks);
-    }
+    mainStore.setLoader(true);
+    firestore()
+      .collection('cashFlow')
+      .get()
+      .then(res => {
+        let finalData = {};
+        res.docs.map(ele => {
+          var key = Object?.keys(ele.data())[0];
+          finalData[key] = ele?.data()[key];
+          return ele?.data();
+        });
+
+        mainStore?.setFirebaseData(finalData);
+        if (finalData.BANKS.length > 0) {
+          setList(finalData.BANKS);
+        } else {
+          setList(indianBanks);
+        }
+        mainStore.setLoader(false);
+      })
+      .catch(err => {
+        mainStore.setLoader(false);
+
+        console.log('error', err);
+      });
+    mainStore.setLoader(false);
+
+    // if (mainStore?.firebaseData?.BANKS?.length > 0) {
+    //   setList(mainStore?.firebaseData?.BANKS);
+    // } else {
+    //   setList(indianBanks);
+    // }
 
     init();
   }, []);
