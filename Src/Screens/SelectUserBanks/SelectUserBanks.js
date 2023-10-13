@@ -63,7 +63,7 @@ const SelectUserBanks = props => {
 
   const onContinue = async () => {
     LocalStorage.storeUserBank(SelectedList);
-    await request_PERMISSIONS('android.permission.READ_SMS');
+    // await request_PERMISSIONS('android.permission.READ_SMS');
     if (props?.route?.params?.setting) {
       _onSmsListenerPressed();
     }

@@ -54,7 +54,12 @@ const Dashboard = props => {
             marginBottom: 20,
           }}>
           <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingHorizontal: 20,
+            }}>
             <Lottie
               source={require('../../Assets/JSON/wait.json')}
               autoPlay
@@ -63,7 +68,13 @@ const Dashboard = props => {
             />
             <TextCustom
               title={'Allow me permission to fetch SMS.'}
-              styles={{fontSize: 16}}
+              styles={{fontSize: 18, fontWeight: '700', marginBottom: 20}}
+            />
+            <TextCustom
+              title={
+                'The Cashflow app will require SMS permission to retrieve your transaction-based SMS in order to provide you with a visual representation of your transaction history.'
+              }
+              styles={{fontSize: 14}}
             />
           </View>
           <TouchableOpacity

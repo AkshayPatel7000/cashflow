@@ -1,4 +1,4 @@
-import AUS from '../Assets/images/AUS.png';
+import AU from '../Assets/images/AUS.png';
 import AIRP from '../Assets/images/AIRP.png';
 import ALB from '../Assets/images/ALB.png';
 import ANDB from '../Assets/images/ANDB.png';
@@ -246,7 +246,7 @@ export const indianBankLogo = {
   AIRP: AIRP,
   ALB: ALB,
   ANDB: ANDB,
-  AUS: AUS,
+  AU: AU,
   AXIS: AXIS,
   BOB: BOB,
   BOI: BOI,
