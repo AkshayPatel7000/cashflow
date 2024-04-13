@@ -85,7 +85,6 @@ const SelectUserBanks = props => {
       setSelectedList(data);
     } else {
       data.push({...item, active: true});
-      console.log(data);
       setSelectedList(data);
     }
   };

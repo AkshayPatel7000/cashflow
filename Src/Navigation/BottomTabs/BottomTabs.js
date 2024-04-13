@@ -12,7 +12,14 @@ import {
 import {scale} from '../../Utils/responsive';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as SVG from '../../Assets/SVG';
-import {Dashboard, Expenses, Profile, Wallet} from '../../Screens/index';
+import {
+  Dashboard,
+  Expenses,
+  Profile,
+  SearchContact,
+  Wallet,
+} from '../../Screens/index';
+import {LocalStorage} from '../../Utils/localStorage';
 //settings-outline wallet-outline add-circle-outline home-outline
 //settings wallet add-circle home
 Icon.loadFont();
@@ -86,7 +93,7 @@ function MyTabBar({state, descriptors, navigation}) {
                   ? options.title
                   : route.name;
               const isFocused = state.index === index;
-              const onPress = () => {
+              const onPress = async () => {
                 animateTab(index);
                 const event = navigation.emit({
                   type: 'tabPress',
@@ -96,11 +103,6 @@ function MyTabBar({state, descriptors, navigation}) {
                 if (!isFocused && !event.defaultPrevented) {
                   // The `merge: true` option makes sure that the params inside the tab screen are preserved
                   navigation2.navigate({name: route.name, merge: true});
-                  if (route.name === 'Listing') {
-                    navigation2.navigate('Listing', {
-                      screen: 'Trip',
-                    });
-                  }
                 }
               };
               const onLongPress = () => {

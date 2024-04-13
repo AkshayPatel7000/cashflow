@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import TextCustom from '../Text/Text';
 import {useNavigation, useTheme} from '@react-navigation/native';
+import {LocalStorage} from '../../Utils/localStorage';
 const ProfileItems = () => {
   const styles = getStyles();
   const {colors} = useTheme();
@@ -38,6 +39,33 @@ const ProfileItems = () => {
               <Octicons name={'info'} size={20} color={colors.my_subHeading} />
             </View>
             <TextCustom title={'Information'} />
+          </View>
+
+          <Octicons
+            name={'chevron-right'}
+            size={20}
+            color={colors.my_subHeading}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.single}
+          onPress={async () => {
+            const data = await LocalStorage.getLoginData();
+            if (data?.installationId) {
+              moveTo('SearchContact');
+            } else {
+              moveTo('CallerDetails');
+            }
+          }}>
+          <View style={styles.IconText}>
+            <View style={styles.icon}>
+              <Octicons
+                name={'telescope-fill'}
+                size={20}
+                color={colors.my_subHeading}
+              />
+            </View>
+            <TextCustom title={'Caller Info'} />
           </View>
 
           <Octicons

@@ -6,6 +6,25 @@ import moment from 'moment';
 import {Alert, Linking} from 'react-native';
 import {LocalStorage} from './localStorage';
 import {Months} from './constant';
+import {phones_list} from './phoneList';
+import {showMessage} from 'react-native-flash-message';
+
+export const showError = (message, duration = 1000) => {
+  showMessage({
+    message,
+    type: 'danger',
+    icon: 'danger',
+    duration,
+  });
+};
+
+export const showSuccess = message => {
+  showMessage({
+    message,
+    type: 'success',
+    icon: 'success',
+  });
+};
 
 export const check_PERMISSIONS_STATUS = async permission => {
   try {
@@ -412,4 +431,23 @@ export const sendWhatsAppMessage = err => {
     );
     console.log('sendWhatsAppMessage -----> ', 'message link is undefined');
   }
+};
+
+export const getRandomDevice = () => {
+  var randomnumber =
+    Math.floor(Math.random() * (phones_list.length - 0 + 1)) + 0;
+  return phones_list[randomnumber];
+};
+
+export const randomId = (length = 16) => {
+  let result = '';
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
 };

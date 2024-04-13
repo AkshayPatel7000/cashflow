@@ -5,12 +5,13 @@ import {StyleSheet, Text} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import ErrorBoundary from './Src/Components/ErrorBound/ErrorBoundary';
+import RNErrorHandler from './Src/Components/ErrorBound/ErrorHandler';
 import Loading from './Src/Components/Loading';
 import Spinner from './Src/Components/Spinner';
 import Routes from './Src/Navigation/Routes';
 import {mainStore} from './Src/Store/MainStore';
-import RNErrorHandler from './Src/Components/ErrorBound/ErrorHandler';
-import {indianBanks} from './Src/Utils/constant';
+import {LocalStorage} from './Src/Utils/localStorage';
+import FlashMessage from 'react-native-flash-message';
 
 const App = () => {
   if (Text.defaultProps == null) {
@@ -21,7 +22,7 @@ const App = () => {
   const [loading, setloading] = useState(true);
   useLayoutEffect(() => {
     // check_PERMISSIONS_STATUS(PERMISSIONS.ANDROID.READ_SMS);
-
+    getTokenFromLocal();
     RNErrorHandler.getInstance().init();
     firestore()
       .collection('cashFlow')
@@ -47,17 +48,26 @@ const App = () => {
     return () => clearTimeout(interval);
   }, []);
 
+  const getTokenFromLocal = async () => {
+    const token = await LocalStorage.getToken();
+    if (token) {
+      mainStore.setToken(token);
+    }
+  };
+
   if (loading) {
     return <Loading />;
   }
 
   return (
-    // <ErrorBoundary>
-    <GestureHandlerRootView style={{flex: 1}}>
-      <Routes />
-      {mainStore.loading && <Spinner />}
-    </GestureHandlerRootView>
-    // </ErrorBoundary>
+    <ErrorBoundary>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <Routes />
+
+        {mainStore.loading && <Spinner />}
+      </GestureHandlerRootView>
+      <FlashMessage duration={5000} floating />
+    </ErrorBoundary>
   );
 };
 

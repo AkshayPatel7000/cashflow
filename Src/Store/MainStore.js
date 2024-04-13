@@ -42,8 +42,9 @@ class MainStore {
       'transaction number',
     ],
   };
-
+  token = null;
   firebaseData = {};
+  LoginData = {};
   constructor() {
     makeAutoObservable(this);
   }
@@ -219,6 +220,12 @@ class MainStore {
       Object.values(filteredDataLabel?.debit).length > 0
         ? Object.values(filteredDataLabel?.debit)[0].amount
         : 0;
+  }
+  setToken(data) {
+    this.token = data;
+  }
+  setLoginData(data) {
+    this.LoginData = data;
   }
 }
 

@@ -8,7 +8,6 @@ const HomeHeader = () => {
   const [Name, setName] = useState('');
   useEffect(() => {
     DeviceInfo.getManufacturer().then(res => {
-      console.log(res);
       DeviceInfo.getDeviceName().then(deviceName => {
         setName(res + ' ' + deviceName);
       });
