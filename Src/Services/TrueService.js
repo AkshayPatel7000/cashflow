@@ -46,7 +46,7 @@ export const sendOtp = async mobile => {
       headers: headersList,
     });
     const data = await apiData.json();
-    console.log('🚀 ~ sendOtp ~ data:', data);
+    console.log('🚀 ~ sendOtp ~ data: 88', data);
     if (data.status) {
       LocalStorage.storeLoginData({...data, mobile});
       mainStore.setLoginData({...data, mobile});
@@ -89,6 +89,11 @@ export const validateOtp = async otp => {
     if (data.status == 2) {
       LocalStorage.storeLoginData({...data, mobile: requestData.mobile});
       mainStore.setLoginData({...data, mobile: requestData.mobile});
+    } else if (data.status == 11) {
+      showError('Invalid OTP');
+    }
+    else if (data.status == 7) {
+      showError('Try getting new OTP');
     }
     return data;
   } catch (error) {
