@@ -13,11 +13,13 @@ import TextCustom from '../../Components/Text/Text';
 import {showError} from '../../Utils/Helper';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import {validateOtp} from '../../Services/TrueService';
+import { mainStore } from '../../Store/MainStore';
 const {width} = Dimensions.get('screen');
 const Otp = () => {
   const {colors} = useTheme();
   const styles = getStyles(colors);
   const [otp_Code, setOtp_Code] = useState('');
+  console.log("mdjkdjdj",mainStore.LoginData.mobile)
   const navigation = useNavigation();
   const validateOTP = () => {
     const pattern = /^\d{6}$/;
@@ -67,7 +69,7 @@ const Otp = () => {
               styles={styles.infoSub}
             />
             <TextCustom
-              title={'+91 8435492115'}
+              title={`+91 ${mainStore.LoginData.mobile}`}
               styles={{...styles.infoSub, color: colors.my_addOne}}
             />
           </View>
