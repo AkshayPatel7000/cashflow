@@ -28,8 +28,8 @@ export const sendOtp = async mobile => {
         device: {
           deviceId: 'asdfghjklpoiuytrew',
           language: 'en',
-          manufacturer: device['manufacturer'],
-          model: device['model'],
+          manufacturer: device.manufacturer,
+          model: device.model,
           osName: 'Android',
           osVersion: '10',
           mobileServices: ['GMS'],
@@ -91,8 +91,7 @@ export const validateOtp = async otp => {
       mainStore.setLoginData({...data, mobile: requestData.mobile});
     } else if (data.status == 11) {
       showError('Invalid OTP');
-    }
-    else if (data.status == 7) {
+    } else if (data.status == 7) {
       showError('Try getting new OTP');
     }
     return data;
@@ -104,6 +103,12 @@ export const validateOtp = async otp => {
 export const searchMobile = async q => {
   try {
     const requestData = await LocalStorage.getLoginData();
+
+    console.log(
+      '🚀 ~ file: TrueService.js:107 ~ searchMobile ~ requestData:',
+      requestData,
+    );
+
     let headersList = {
       'content-type': 'application/json; charset=UTF-8',
       'accept-encoding': 'gzip',
@@ -115,6 +120,10 @@ export const searchMobile = async q => {
       method: 'GET',
       headers: headersList,
     });
+    console.log(
+      '🚀 ~ file: TrueService.js:120 ~ searchMobile ~ apiData:',
+      await apiData.text(),
+    );
     const data = await apiData.json();
 
     return data;

@@ -151,7 +151,9 @@ const PrivacyPolicy = () => {
       </ScrollView> */}
       <WebView
         style={{flex: 1}}
-        source={{uri: 'https://cashflowapp.w3spaces.com'}}
+        source={{
+          uri: 'https://sites.google.com/view/cash-flow-privacy-policy-app/home',
+        }}
       />
     </Container>
   );

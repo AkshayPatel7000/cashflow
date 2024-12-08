@@ -38,6 +38,8 @@ const SearchContact = () => {
         setLoader(true);
         const {data} = await searchMobile(query);
 
+        console.log('🚀 ~ file: SearchContact.js:41 ~ onSearch ~ data:', data);
+
         setUserData(data);
         setLoader(false);
       }
@@ -73,7 +75,7 @@ const SearchContact = () => {
             <Icon name={'search'} size={18} color={colors.card} />
           </TouchableOpacity>
         </View>
-        {userData.length > 0 && (
+        {userData?.length > 0 && (
           <View style={styles.lowerContainer}>
             <View
               style={{

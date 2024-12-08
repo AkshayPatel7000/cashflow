@@ -6,8 +6,8 @@ import TextCustom from '../Text/Text';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {LocalStorage} from '../../Utils/localStorage';
 const ProfileItems = () => {
-  const styles = getStyles();
   const {colors} = useTheme();
+  const styles = getStyles(colors);
   const navigation = useNavigation();
   const moveTo = name => {
     navigation.navigate(name, {setting: true});
@@ -38,7 +38,7 @@ const ProfileItems = () => {
             <View style={styles.icon}>
               <Octicons name={'info'} size={20} color={colors.my_subHeading} />
             </View>
-            <TextCustom title={'Information'} />
+            <TextCustom title={'Privacy Policy'} />
           </View>
 
           <Octicons
@@ -47,7 +47,7 @@ const ProfileItems = () => {
             color={colors.my_subHeading}
           />
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.single}
           onPress={async () => {
             const data = await LocalStorage.getLoginData();
@@ -73,7 +73,7 @@ const ProfileItems = () => {
             size={20}
             color={colors.my_subHeading}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
@@ -81,9 +81,7 @@ const ProfileItems = () => {
 
 export default ProfileItems;
 
-const getStyles = () => {
-  const {colors} = useTheme();
-
+const getStyles = colors => {
   return StyleSheet.create({
     main: {
       marginHorizontal: 15,

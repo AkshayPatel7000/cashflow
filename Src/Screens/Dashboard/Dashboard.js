@@ -18,8 +18,11 @@ import {check} from 'react-native-permissions';
 import {_onSmsListenerPressed, request_PERMISSIONS} from '../../Utils/Helper';
 import {observer} from 'mobx-react';
 import Lottie from 'lottie-react-native';
+import {useNavigation} from '@react-navigation/native';
 
 const Dashboard = props => {
+  const navigation = useNavigation();
+
   const [hasPer, sethasPer] = useState(false);
   useEffect(() => {
     init();
@@ -42,7 +45,9 @@ const Dashboard = props => {
       sethasPer(true);
     }
   };
-
+  const openPrivacy = () => {
+    navigation.navigate('PrivacyPolicy', {setting: true});
+  };
   if (!hasPer) {
     return (
       <Container>
@@ -77,6 +82,20 @@ const Dashboard = props => {
               styles={{fontSize: 14}}
             />
           </View>
+          <TouchableOpacity
+            onPress={() => openPrivacy()}
+            style={{
+              paddingVertical: 20,
+              width: '90%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 20,
+            }}>
+            <TextCustom
+              title={'Read Privacy Policy.'}
+              styles={{fontSize: 14}}
+            />
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => reqPerm()}
             style={{
