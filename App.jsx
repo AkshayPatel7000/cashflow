@@ -37,6 +37,7 @@ const App = () => {
 
         mainStore?.setFirebaseData(finalData);
       })
+
       .catch(err => {
         console.log('error', err);
       });

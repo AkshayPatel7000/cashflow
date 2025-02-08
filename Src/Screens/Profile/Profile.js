@@ -17,7 +17,7 @@ const Profile = () => {
       </ScrollView>
       <View
         style={{width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-        <TextCustom title={'Version - 0.10'} />
+        <TextCustom title={'Version - 0.1'} />
       </View>
     </Container>
   );

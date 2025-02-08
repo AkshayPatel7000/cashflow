@@ -95,13 +95,13 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.cashflow.app"
+    namespace "com.app.cashflow.android"
     defaultConfig {
-        applicationId "com.cashflow.app"
+        applicationId "com.app.cashflow.android"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 2
-        versionName "1.2"
+        versionName "1.1"
     }
 
     splits {

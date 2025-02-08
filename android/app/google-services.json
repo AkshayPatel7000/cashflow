@@ -2,14 +2,33 @@
   "project_info": {
     "project_number": "613343992161",
     "project_id": "cash-flow-f26a1",
-    "storage_bucket": "cash-flow-f26a1.appspot.com"
+    "storage_bucket": "cash-flow-f26a1.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:613343992161:android:6fa4df778ff680759fcd20",
+        "mobilesdk_app_id": "1:613343992161:android:b243e95303c57b209fcd20",
         "android_client_info": {
-          "package_name": "com.cashflow.app"
+          "package_name": "com.app.cashflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_pWkNkhTps1-Hev-M0KMXirkAXN7zrZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613343992161:android:0635deb783df76189fcd20",
+        "android_client_info": {
+          "package_name": "com.app.cashflow.android"
         }
       },
       "oauth_client": [],
