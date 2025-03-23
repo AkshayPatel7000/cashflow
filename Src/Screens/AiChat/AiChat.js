@@ -396,6 +396,17 @@ Do not include technical SMS metadata in your analysis`,
             <Text style={styles.userStatus}>Online</Text>
           </View>
         </View>
+        {/* <Menu
+          ref={menuRef}
+          button={
+            <TouchableOpacity onPress={showMenu} style={styles.menuButton}>
+              <Feather name="more-vertical" size={24} color="#1F2937" />
+            </TouchableOpacity>
+          }>
+          <MenuItem onPress={handleDeleteChat} textStyle={styles.deleteText}>
+            Delete Chat
+          </MenuItem>
+        </Menu> */}
       </View>
 
       {/* Chat Messages */}
