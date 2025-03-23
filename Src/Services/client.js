@@ -24,7 +24,7 @@ client.interceptors.response.use(
   res => {
     // store.dispatch(setIsLoading(false));
 
-    if (!res.data.status) {
+    if (!res.data) {
       throw res.data;
     }
 

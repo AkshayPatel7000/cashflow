@@ -54,7 +54,8 @@
     "react-native-svg-transformer": "^1.0.0",
     "react-native-vector-icons": "^9.1.0",
     "react-native-webview": "^13.3.0",
-    "yarn": "^1.22.21"
+    "yarn": "^1.22.21",
+    "react-native-material-menu": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

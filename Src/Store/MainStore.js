@@ -12,6 +12,7 @@ import {
 } from '../Utils/Helper';
 
 class MainStore {
+  deviceId = '';
   sms = [];
   loading = false;
   resentTrans = [];
@@ -92,7 +93,7 @@ class MainStore {
             : Expanse + 0;
           return {
             other: item,
-
+            dateTime: moment(item.time).format('DD/MM/YYYY, LT'),
             body: item?.body,
             amount: amount,
             address: UPI_ID

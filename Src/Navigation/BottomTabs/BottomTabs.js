@@ -18,6 +18,7 @@ import {
   Profile,
   SearchContact,
   Wallet,
+  AiChat,
 } from '../../Screens/index';
 import {LocalStorage} from '../../Utils/localStorage';
 //settings-outline wallet-outline add-circle-outline home-outline
@@ -186,12 +187,12 @@ const BottomTabs = () => {
           component={Expenses}
         />
         <BottomTab.Screen
-          name="Wallet"
+          name="AI Chat"
           options={{
-            icon: 'ios-wallet',
-            iconInActive: 'ios-wallet-outline',
+            icon: 'chatbubbles-sharp',
+            iconInActive: 'chatbubbles-outline',
           }}
-          component={Wallet}
+          component={AiChat}
         />
         <BottomTab.Screen
           name="Profile"

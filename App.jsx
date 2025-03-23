@@ -12,6 +12,7 @@ import Routes from './Src/Navigation/Routes';
 import {mainStore} from './Src/Store/MainStore';
 import {LocalStorage} from './Src/Utils/localStorage';
 import FlashMessage from 'react-native-flash-message';
+import DeviceInfo from 'react-native-device-info';
 
 const App = () => {
   if (Text.defaultProps == null) {
@@ -50,6 +51,8 @@ const App = () => {
   }, []);
 
   const getTokenFromLocal = async () => {
+    const deviceId = await DeviceInfo.getUniqueId();
+    mainStore.setDeviceId(deviceId);
     const token = await LocalStorage.getToken();
     if (token) {
       mainStore.setToken(token);

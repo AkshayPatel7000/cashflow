@@ -9,3 +9,4 @@ export {default as CallerDetails} from './CallerDetails/CallerDetails';
 export {default as SignUp} from './CallerDetails/SignUp';
 export {default as Otp} from './CallerDetails/Otp';
 export {default as SearchContact} from './CallerDetails/SearchContact';
+export {default as AiChat} from './AiChat/AiChat';
