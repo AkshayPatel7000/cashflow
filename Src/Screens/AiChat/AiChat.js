@@ -24,7 +24,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
 import client from '../../Services/client';
 import Endpoints from '../../Services/Endpoints';
-import Menu, {MenuItem} from 'react-native-material-menu';
+import {Menu, MenuItem} from 'react-native-material-menu';
 
 const explainableComponent = {
   // Basic Transaction Information
@@ -66,6 +66,22 @@ const explainableComponent = {
     thread_id: 'Conversation thread ID this message belongs to',
     type: 'Type of message (1 means standard SMS)',
   },
+};
+
+const NoDataComponent = ({
+  icon = 'message-square',
+  iconColor = '#8A2BE2',
+  title = 'No Messages yet',
+  subtitle = 'No messages yet, start the chat',
+  iconSize = 40,
+}) => {
+  return (
+    <View style={styles.containerEmpty}>
+      <Feather name={icon} size={iconSize} color={iconColor} />
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.subtitle}>{subtitle}</Text>
+    </View>
+  );
 };
 const AiChat = () => {
   const [messages, setMessages] = useState([]);
@@ -193,7 +209,9 @@ Do NOT use bullet points, asterisks (*), or any markdown formatting in your resp
 Format the response as simple plain text without special formatting
 Present transaction information in simple sentences with proper spacing
 Focus on the key transaction details like amount, recipient, date, and transaction type
-Do not include technical SMS metadata in your analysis`,
+Do not include technical SMS metadata in your analysis
+if the user asks about a specific transaction, provide a response based on the data provided in the SMS data
+if user question dosent belong to the data act as a normal chatbot`,
               },
             ],
           },
@@ -401,9 +419,10 @@ Do not include technical SMS metadata in your analysis`,
               <Text style={styles.userStatus}>Online</Text>
             </View>
           </View>
-          {/* <Menu
+          <Menu
             ref={menuRef}
-            button={
+            onRequestClose={hideMenu}
+            anchor={
               <TouchableOpacity onPress={showMenu} style={styles.menuButton}>
                 <Feather name="more-vertical" size={24} color="#1F2937" />
               </TouchableOpacity>
@@ -411,7 +430,7 @@ Do not include technical SMS metadata in your analysis`,
             <MenuItem onPress={handleDeleteChat} textStyle={styles.deleteText}>
               Delete Chat
             </MenuItem>
-          </Menu> */}
+          </Menu>
         </View>
 
         {/* Chat Messages */}
@@ -437,6 +456,7 @@ Do not include technical SMS metadata in your analysis`,
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="on-drag"
+          ListEmptyComponent={<NoDataComponent />}
         />
 
         {/* Message Input */}
@@ -516,6 +536,7 @@ const styles = StyleSheet.create({
   chatContainer: {
     paddingHorizontal: 16,
     paddingBottom: 16,
+    flexGrow: 1,
   },
   dayMarkerContainer: {
     alignItems: 'center',
@@ -650,5 +671,24 @@ const styles = StyleSheet.create({
   deleteText: {
     color: '#EF4444', // red color for delete option
     fontSize: 16,
+  },
+  containerEmpty: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%', // Takes full height of FlatList
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+    marginTop: 12,
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontSize: 14,
+    color: '#666',
+    marginTop: 4,
+    textAlign: 'center',
   },
 });

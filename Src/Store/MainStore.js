@@ -53,6 +53,9 @@ class MainStore {
   setLoader(value) {
     this.loading = value;
   }
+  setDeviceId(value) {
+    this.deviceId = value;
+  }
   setFirebaseData(data) {
     if (data.credits && data.debits) {
       this.firebaseData = data;
