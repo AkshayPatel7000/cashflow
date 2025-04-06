@@ -5,8 +5,10 @@ import CommonHeader from '../../Components/Headers/CommonHeader';
 import UserInfo from '../../Components/Profile/UserInfo';
 import ProfileItems from '../../Components/Profile/ProfileItems';
 import TextCustom from '../../Components/Text/Text';
+import DeviceInfo from 'react-native-device-info';
 
 const Profile = () => {
+  const currentVersion = DeviceInfo.getVersion();
   return (
     <Container>
       <ScrollView>
@@ -17,7 +19,7 @@ const Profile = () => {
       </ScrollView>
       <View
         style={{width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-        <TextCustom title={'Version - 0.1'} />
+        <TextCustom title={`Version - ${currentVersion}`} />
       </View>
     </Container>
   );

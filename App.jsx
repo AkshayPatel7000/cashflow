@@ -11,9 +11,11 @@ import ErrorBoundary from './Src/Components/ErrorBound/ErrorBoundary';
 import RNErrorHandler from './Src/Components/ErrorBound/ErrorHandler';
 import Loading from './Src/Components/Loading';
 import Spinner from './Src/Components/Spinner';
+import {showUpdateAlert} from './src/components/UpdateAlert';
 import Routes from './Src/Navigation/Routes';
 import {mainStore} from './Src/Store/MainStore';
 import {LocalStorage} from './Src/Utils/localStorage';
+import {checkAppVersionFirebase} from './src/utils/versionCheck';
 
 const App = () => {
   if (Text.defaultProps == null) {
@@ -23,6 +25,20 @@ const App = () => {
 
   const [loading, setloading] = useState(true);
   useLayoutEffect(() => {
+    const checkForUpdates = async () => {
+      const versionCheck = await checkAppVersionFirebase();
+
+      if (
+        versionCheck &&
+        (versionCheck.needsUpdate || versionCheck.isForceUpdate)
+      ) {
+        showUpdateAlert({
+          isForceUpdate: versionCheck.isForceUpdate,
+          closedTestingLink: versionCheck.closedTestingLink,
+        });
+      }
+    };
+    checkForUpdates();
     // check_PERMISSIONS_STATUS(PERMISSIONS.ANDROID.READ_SMS);
     getTokenFromLocal();
     RNErrorHandler.getInstance().init();
@@ -36,7 +52,6 @@ const App = () => {
           finalData[key] = ele?.data()[key];
           return ele?.data();
         });
-        console.log('🚀 ~ useLayoutEffect ~ finalData:', finalData);
 
         mainStore?.setFirebaseData(finalData);
       })
