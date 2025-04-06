@@ -4,15 +4,16 @@ import React, {useLayoutEffect, useState} from 'react';
 import {StyleSheet, Text} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
+import DeviceInfo from 'react-native-device-info';
+import FlashMessage from 'react-native-flash-message';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import ErrorBoundary from './Src/Components/ErrorBound/ErrorBoundary';
 import RNErrorHandler from './Src/Components/ErrorBound/ErrorHandler';
 import Loading from './Src/Components/Loading';
 import Spinner from './Src/Components/Spinner';
+import Routes from './Src/Navigation/Routes';
 import {mainStore} from './Src/Store/MainStore';
 import {LocalStorage} from './Src/Utils/localStorage';
-import FlashMessage from 'react-native-flash-message';
-import DeviceInfo from 'react-native-device-info';
-import Routes from './Src/Navigation/Routes';
 
 const App = () => {
   if (Text.defaultProps == null) {
@@ -35,6 +36,7 @@ const App = () => {
           finalData[key] = ele?.data()[key];
           return ele?.data();
         });
+        console.log('🚀 ~ useLayoutEffect ~ finalData:', finalData);
 
         mainStore?.setFirebaseData(finalData);
       })
@@ -64,14 +66,16 @@ const App = () => {
   }
 
   return (
-    <ErrorBoundary>
-      <GestureHandlerRootView style={{flex: 1}}>
-        <Routes />
+    <SafeAreaProvider>
+      <ErrorBoundary>
+        <GestureHandlerRootView style={{flex: 1}}>
+          <Routes />
 
-        {mainStore.loading && <Spinner />}
-      </GestureHandlerRootView>
-      <FlashMessage duration={5000} floating />
-    </ErrorBoundary>
+          {mainStore.loading && <Spinner />}
+        </GestureHandlerRootView>
+        <FlashMessage duration={5000} floating />
+      </ErrorBoundary>
+    </SafeAreaProvider>
   );
 };
 

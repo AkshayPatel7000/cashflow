@@ -1,6 +1,8 @@
+/* eslint-disable react-native/no-inline-styles */
+import analytics from '@react-native-firebase/analytics';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useTheme} from '@react-navigation/native';
-import React, {useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {
   Animated,
   Dimensions,
@@ -16,39 +18,65 @@ import {scale} from '../../Utils/responsive';
 Icon.loadFont();
 const BottomTab = createBottomTabNavigator();
 function MyTabBar({state, descriptors, navigation}) {
-  const animatedRef = useRef(null);
-  const scrollY = new Animated.Value(0);
-  const translateY = scrollY.interpolate({
-    inputRange: [0, 60],
-    outputRange: [0, -60],
-  });
-  const {colors, dark} = useTheme();
+  const scrollY = useRef(new Animated.Value(0)).current;
+
+  const {colors} = useTheme();
   const tabOffsetValue = useRef(new Animated.Value(0)).current;
-  const animateTab = index => {
-    Animated.spring(tabOffsetValue, {
-      toValue: getWidth() * index,
-      useNativeDriver: true,
-    }).start();
-  };
+  const animateTab = useCallback(
+    index => {
+      Animated.spring(tabOffsetValue, {
+        toValue: getWidth() * index,
+        useNativeDriver: true,
+      }).start();
+    },
+    [tabOffsetValue],
+  );
   const [showTab, setShowTab] = React.useState(true);
   useEffect(() => {
     animateTab(state.index);
-  }, [state.index]);
+  }, [state.index, animateTab]);
   useEffect(() => {
+    const _keyboardDidShow = () => {
+      setShowTab(false);
+      scrollY.setValue(-100);
+    };
+    const _keyboardDidHide = () => {
+      setShowTab(true);
+      scrollY.setValue(0);
+    };
     const Subs = Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
     Keyboard.addListener('keyboardDidHide', _keyboardDidHide);
     return () => {
       Subs.remove();
     };
-  }, []);
-  const _keyboardDidShow = () => {
-    setShowTab(false);
-    scrollY.setValue(-100);
+  }, [scrollY]);
+
+  const onPress = async (route, index, isFocused) => {
+    try {
+      // Animate the tab first
+      animateTab(index);
+
+      const event = navigation.emit({
+        type: 'tabPress',
+        target: route.key,
+        canPreventDefault: true,
+      });
+
+      if (!isFocused && !event.defaultPrevented) {
+        // Navigate first
+        navigation.navigate(route.name);
+
+        // Then track the screen view
+        await analytics().logScreenView({
+          screen_name: route.name,
+          screen_class: route.name,
+        });
+      }
+    } catch (error) {
+      console.log('Tab navigation error:', error);
+    }
   };
-  const _keyboardDidHide = () => {
-    setShowTab(true);
-    scrollY.setValue(0);
-  };
+
   return (
     <>
       {showTab && (
@@ -57,8 +85,7 @@ function MyTabBar({state, descriptors, navigation}) {
             style={{
               flexDirection: 'row',
               paddingHorizontal: 10,
-              marginBottom: Platform.OS == 'ios' ? 20 : 10,
-              backgroundColor: colors.my_primary,
+              marginBottom: Platform.OS === 'ios' ? 20 : 10,
               height: 60,
             }}>
             <Animated.View
@@ -83,19 +110,6 @@ function MyTabBar({state, descriptors, navigation}) {
                   ? options.title
                   : route.name;
               const isFocused = state.index === index;
-              const onPress = async () => {
-                console.log('first');
-                animateTab(index);
-                const event = navigation.emit({
-                  type: 'tabPress',
-                  target: route.key,
-                  canPreventDefault: true,
-                });
-                if (!isFocused && !event.defaultPrevented) {
-                  // The `merge: true` option makes sure that the params inside the tab screen are preserved
-                  navigation.navigate({name: route.name, merge: true});
-                }
-              };
               const onLongPress = () => {
                 navigation.emit({
                   type: 'tabLongPress',
@@ -109,7 +123,7 @@ function MyTabBar({state, descriptors, navigation}) {
                   accessibilityState={isFocused ? {selected: true} : {}}
                   accessibilityLabel={options.tabBarAccessibilityLabel}
                   testID={options.tabBarTestID}
-                  onPress={onPress}
+                  onPress={() => onPress(route, index, isFocused)}
                   onLongPress={() => onLongPress()}
                   style={{
                     flex: 1,
@@ -148,7 +162,17 @@ function getWidth() {
   return width / 4;
 }
 const BottomTabs = () => {
-  const {colors, dark} = useTheme();
+  // Add screen tracking when tabs mount
+  useEffect(() => {
+    const trackInitialScreen = async () => {
+      await analytics().logScreenView({
+        screen_name: 'Dashboard',
+        screen_class: 'Dashboard',
+      });
+    };
+    trackInitialScreen();
+  }, []);
+
   return (
     <>
       <BottomTab.Navigator

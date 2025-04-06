@@ -25,6 +25,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import client from '../../Services/client';
 import Endpoints from '../../Services/Endpoints';
 import {Menu, MenuItem} from 'react-native-material-menu';
+import DeviceInfo from 'react-native-device-info';
 
 const explainableComponent = {
   // Basic Transaction Information
@@ -95,10 +96,17 @@ const AiChat = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const dataSms = mainStore?.sms?.map(e => ({...e, other: null}));
   const menuRef = useRef(null);
-
+  const firebaseData = mainStore?.firebaseData;
   const showMenu = () => menuRef.current.show();
   const hideMenu = () => menuRef.current.hide();
-
+  const [Name, setName] = useState('');
+  useEffect(() => {
+    DeviceInfo.getManufacturer().then(res => {
+      DeviceInfo.getDeviceName().then(deviceName => {
+        setName(res + ' ' + deviceName);
+      });
+    });
+  }, []);
   const handleDeleteChat = () => {
     hideMenu();
     Alert.alert(
@@ -189,29 +197,48 @@ const AiChat = () => {
     }
 
     return () => clearInterval(dotInterval);
-  }, [loading, dots]);
+  }, [loading, dots, fadeAnim]);
   const getAiResponse = async input => {
     setLoading(true);
     try {
+      const currentDate = new Date().toLocaleString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      });
+      const prompt =
+        firebaseData.prompt ||
+        `Analyze the following bank transaction SMS data and provide a response in plain text format without any bullet points, asterisks or markdown formatting:
+{smsData}
+Here's an explanation of the key fields to help you understand the data:
+{explainableComponent}
+User question: {userInput}
+Current date time: {currentDate}
+
+Important instructions:
+- Do NOT use bullet points, asterisks (*), or any markdown formatting in your response
+- Format the response as simple plain text without special formatting
+- Present transaction information in simple sentences with proper spacing
+- Focus on the key transaction details like amount, recipient, date, and transaction type
+- Do not include technical SMS metadata in your analysis
+- If the user asks about a specific transaction, provide a response based on the data provided in the SMS data
+- If user question doesn't belong to the data act as a normal chatbot`;
+      // Replace placeholders in the template
+      const formattedPrompt = prompt
+        .replace('{smsData}', JSON.stringify(dataSms))
+        .replace('{explainableComponent}', JSON.stringify(explainableComponent))
+        .replace('{userInput}', input)
+        .replace('{currentDate}', currentDate);
       const payLoad = {
         contents: [
           {
             parts: [
               {
-                text: `Analyze the following bank transaction SMS data and provide a response in plain text format without any bullet points, asterisks or markdown formatting:
-                      ${JSON.stringify(dataSms)}
-                      Here's an explanation of the key fields to help you understand the data:
-                        ${JSON.stringify(explainableComponent)}
-                        User question: ${input}
-Important instructions:
-
-Do NOT use bullet points, asterisks (*), or any markdown formatting in your response
-Format the response as simple plain text without special formatting
-Present transaction information in simple sentences with proper spacing
-Focus on the key transaction details like amount, recipient, date, and transaction type
-Do not include technical SMS metadata in your analysis
-if the user asks about a specific transaction, provide a response based on the data provided in the SMS data
-if user question dosent belong to the data act as a normal chatbot`,
+                text: formattedPrompt,
               },
             ],
           },
@@ -229,6 +256,7 @@ if user question dosent belong to the data act as a normal chatbot`,
         text: aiResponseText,
         createdAt: new Date().getTime(),
         user: 'ai',
+        deviceName: Name,
       };
 
       await firestore()
@@ -249,6 +277,7 @@ if user question dosent belong to the data act as a normal chatbot`,
         text: input,
         createdAt: new Date().getTime(),
         user: 'user',
+        deviceName: Name,
       };
 
       await firestore()

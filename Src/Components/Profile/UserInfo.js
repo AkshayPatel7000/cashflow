@@ -1,18 +1,19 @@
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {useTheme} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
+import {Image, StyleSheet, View} from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import {
   moderateScale,
   moderateVerticalScale,
   scale,
 } from '../../Utils/responsive';
-import {useTheme} from '@react-navigation/native';
 import TextCustom from '../Text/Text';
-import DeviceInfo from 'react-native-device-info';
 
 const UserInfo = () => {
   const [Name, setName] = useState({});
   const {colors} = useTheme();
-  const styles = getStyles();
+
+  const styles = getStyles({colors});
   useEffect(() => {
     DeviceInfo.getManufacturer().then(res => {
       console.log(res);
@@ -41,8 +42,7 @@ const UserInfo = () => {
 
 export default UserInfo;
 
-const getStyles = () => {
-  const {colors} = useTheme();
+const getStyles = ({colors}) => {
   return StyleSheet.create({
     contentContainerStyle: {
       width: '100%',
@@ -71,7 +71,6 @@ const getStyles = () => {
     image: {
       height: '100%',
       width: '100%',
-      borderRadius: 100,
       borderRadius: scale(50),
     },
     nameContainer: {

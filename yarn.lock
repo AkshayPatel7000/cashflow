@@ -2046,6 +2046,13 @@
   dependencies:
     invariant "^2.2.4"
 
+"@react-native-firebase/analytics@^21.13.0":
+  version "21.13.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/analytics/-/analytics-21.13.0.tgz#beb2d8ad47e428932b7eedb39ae8ae2944bdc3ff"
+  integrity sha512-i2XMGcCOSiuFCi20wINVCtRsKgJ/Qcmh7Qy7Io3yPL+nuszClGL3v6LMAFjkEDPhlXwCD0gy5/uEF/X79vUZdg==
+  dependencies:
+    superstruct "^2.0.2"
+
 "@react-native-firebase/app@^21.12.1":
   version "21.12.1"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-21.12.1.tgz#07a643f67bcaf29e6783e01e3ee6a26ac8fdaad2"
@@ -7391,6 +7398,11 @@ sudo-prompt@^9.0.0:
   version "9.2.1"
   resolved "https://registry.yarnpkg.com/sudo-prompt/-/sudo-prompt-9.2.1.tgz#77efb84309c9ca489527a4e749f287e6bdd52afd"
   integrity sha512-Mu7R0g4ig9TUuGSxJavny5Rv0egCEtpZRNMrZaYS1vxkiIxGiGUwoezU3LazIQ+KE04hTrTfNPgxU5gzi7F5Pw==
+
+superstruct@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/superstruct/-/superstruct-2.0.2.tgz#3f6d32fbdc11c357deff127d591a39b996300c54"
+  integrity sha512-uV+TFRZdXsqXTL2pRvujROjdZQ4RAlBUS5BTh9IGm+jTqQntYThciG/qu57Gs69yjnVUSqdxF9YLmSnpupBW9A==
 
 supports-color@^7.1.0:
   version "7.2.0"

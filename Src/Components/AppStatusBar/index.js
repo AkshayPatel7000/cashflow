@@ -15,13 +15,13 @@ const AppStatusBar = props => {
         //height: statusBarHeight,
         backgroundColor,
       }}>
-      <SafeAreaView>
-        <StatusBar
-          backgroundColor={backgroundColor}
-          barStyle={!dark ? 'dark-content' : 'light-content'}
-          {...statusBarProps}
-        />
-      </SafeAreaView>
+      {/* <SafeAreaView> */}
+      <StatusBar
+        backgroundColor={backgroundColor}
+        barStyle={!dark ? 'dark-content' : 'light-content'}
+        {...statusBarProps}
+      />
+      {/* </SafeAreaView> */}
     </View>
   );
 };

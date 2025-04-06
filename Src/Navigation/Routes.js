@@ -1,6 +1,7 @@
 import {
   NavigationContainer,
   DefaultTheme as NavigationDefaultTheme,
+  useNavigationContainerRef,
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
@@ -41,9 +42,13 @@ const myDark = {
 };
 
 const Routes = () => {
+  const navigationRef = useNavigationContainerRef();
   const scheme = useColorScheme();
+
   return (
-    <NavigationContainer theme={scheme === 'dark' ? myDark : myLight}>
+    <NavigationContainer
+      theme={scheme === 'dark' ? myDark : myLight}
+      ref={navigationRef}>
       <Stack.Navigator
         headerMode={false}
         animationEnabled={true}
