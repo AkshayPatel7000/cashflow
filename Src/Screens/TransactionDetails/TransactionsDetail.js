@@ -1,20 +1,18 @@
+import {useNavigation, useTheme} from '@react-navigation/native';
+import moment from 'moment';
+import React from 'react';
 import {
-  Dimensions,
   Image,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
 import Container from '../../Components/Container/Container';
-import {mainStore} from '../../Store/MainStore';
 import CommonHeader from '../../Components/Headers/CommonHeader';
-import {Shadow, indianBankLogo} from '../../Utils/constant';
-import {useNavigation, useTheme} from '@react-navigation/native';
 import TextCustom from '../../Components/Text/Text';
-import moment from 'moment';
+import {mainStore} from '../../Store/MainStore';
+import {indianBankLogo} from '../../Utils/constant';
 
 const TransactionsDetail = () => {
   const {TransactionsDetail} = mainStore;
@@ -24,7 +22,7 @@ const TransactionsDetail = () => {
   );
   const {colors} = useTheme();
   const navigation = useNavigation();
-  const styles = getStyles();
+  const styles = getStyles(colors);
   return (
     <Container>
       <CommonHeader title="Details" goBack />
@@ -132,8 +130,7 @@ const TransactionsDetail = () => {
 };
 
 export default TransactionsDetail;
-const getStyles = () => {
-  const {colors} = useTheme();
+const getStyles = colors => {
   return StyleSheet.create({
     main: {
       width: '100%',

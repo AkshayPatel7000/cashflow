@@ -91,6 +91,7 @@ const AiChat = () => {
   const deviceId = mainStore.deviceId;
   const chatDocId = `${deviceId}-ai`;
   const {colors} = useTheme();
+  console.log('🚀 ~ AiChat ~ chatDocId:', chatDocId);
   const flatListRef = useRef(null);
   const [dots, setDots] = useState('');
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -264,6 +265,11 @@ Important instructions:
         .doc(chatDocId)
         .collection('messages')
         .add(aiResponse);
+      await firestore().collection('chats').doc(chatDocId).update({
+        lastMessage: aiResponse.text,
+        lastMessageTime: aiResponse.createdAt,
+        deviceName: Name,
+      });
     } catch (error) {
       console.log(error, 'error');
     } finally {
@@ -286,6 +292,11 @@ Important instructions:
         .collection('messages')
         .add(newMessage);
       setInput('');
+      await firestore().collection('chats').doc(chatDocId).set({
+        lastMessage: newMessage.text,
+        lastMessageTime: newMessage.createdAt,
+        deviceName: Name,
+      });
       await getAiResponse(input);
     }
   };

@@ -59,12 +59,26 @@ class MainStore {
   setFirebaseData(data) {
     if (data.credits && data.debits) {
       this.firebaseData = data;
+      console.log('🚀 ~ MainStore ~ setFirebaseData ~ data:', data);
     }
   }
   async setSms(value) {
     try {
+      const ignoreList = this.firebaseData?.ignore;
       if (value?.length > 0) {
-        var tempData = value.map(res => ({
+        let filteredSMSList = value;
+        if (ignoreList?.length > 0) {
+          filteredSMSList = value.filter(
+            e =>
+              !ignoreList?.some(item =>
+                e?.body
+                  ?.toLowerCase()
+                  ?.replace(/[^\w\.]/g, '')
+                  .includes(item?.toLowerCase()?.replace(/[^\w\.]/g, '')),
+              ),
+          );
+        }
+        var tempData = filteredSMSList.map(res => ({
           ...res,
           time: res.time ? res?.time : res.date,
         }));
@@ -125,8 +139,6 @@ class MainStore {
         this.filteredSMS = temp;
 
         this.totalAmount = finalAmount;
-        // this.totalIncome = income;
-        // this.totalExpense = Expanse;
         this.setFilterByMonth(temp);
         this.setRecentGraphData(temp);
       }
